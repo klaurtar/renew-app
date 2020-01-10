@@ -13,11 +13,15 @@ function Item(props) {
       } ${isDarkMode ? classes.borderDark : classes.borderLight}`}
     >
       <div className={classes.one}>
-        <img className={classes.image} src={props.image} />
+        <img className={classes.image} src={props.image} alt={props.name}/>
       </div>
       <div className={classes.name}>{props.name}</div>
       <div className={classes.price}>{props.price}</div>
       <div className={classes.views}>{props.views}</div>
+      <div className={classes.actions}>
+      <button><i className="far fa-edit fa-2x" style={{color: "green"}}></i></button>
+      <button><i className="fas fa-trash fa-2x" style={{color: "red"}}></i></button>
+      </div>
     </div>
   );
 }

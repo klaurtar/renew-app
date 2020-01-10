@@ -60,6 +60,7 @@ function ItemList(props) {
             value={value}
             onChange={handleChange}
             onRequestSearch={() => console.log(this.state.value)}
+            className={isDarkMode && classes.bgDark}
           />
         </form>
       </div>
@@ -81,6 +82,7 @@ function ItemList(props) {
           <div>
             Views <i className="fas fa-sort-down"></i>
           </div>
+          <div>Actions</div>
         </div>
         {initialPosts.map(item => {
           return (

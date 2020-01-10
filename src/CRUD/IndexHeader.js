@@ -15,7 +15,7 @@ function IndexHeader(props) {
             isDarkMode ? classes.darkText : classes.lightText
           } `}
         >
-          Welcome, Ryan!
+          Welcome, Ryan/Nedal!
         </div>
         <Button
           variant="contained"
