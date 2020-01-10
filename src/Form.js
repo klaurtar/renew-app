@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from 'react-router-dom';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -31,7 +32,7 @@ function Form(props) {
               <InputLabel htmlFor='password'>Password</InputLabel>
               <Input id='password' name='password' autoFocus />
             </FormControl>
-            
+            <Link to="/items">
             <Button
               variant='contained'
               type='submit'
@@ -41,6 +42,7 @@ function Form(props) {
             >
               Sign In
             </Button>
+            </Link>
           </form>
         </Paper>
       </main>
