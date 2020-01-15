@@ -94,9 +94,9 @@ function Form(props) {
     }
   };
 
-  if (loggedIn) {
-    return <Redirect to="/items" />;
-}
+//   if (loggedIn) {
+//     return <Redirect to="/items" />;
+// }
 
   return (
     <main className={classes.main}>
