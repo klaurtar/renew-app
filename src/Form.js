@@ -46,12 +46,12 @@ function Form(props) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            email: emailValue,
+            username: emailValue,
             password: passwordValue
           })
         });
 
-      
+
         const responseData = await response.json();
         console.log(responseData);
       } catch (err) {
@@ -65,7 +65,7 @@ function Form(props) {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            email: emailValue,
+            username: emailValue,
             password: passwordValue
           })
         });

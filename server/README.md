@@ -9,3 +9,8 @@ npm run api
 
 ## Read API Docs ##
 - Navigate to `server` directory. Then `apidocs`. Then open `index.html` file by explorer.
+
+## Creat Directory For Item Photos ##
+- Create a folder in the working root directory and call it `cdn`.
+- Then inside this folder create nested one and call it `item_photos`.
+- *Or* Create the directory where ever but change `ITEM_PHOTOS_DIR` in `.env` file into this directory. 

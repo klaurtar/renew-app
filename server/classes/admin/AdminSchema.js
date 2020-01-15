@@ -16,8 +16,12 @@ const AdminSchema = new mongoose.Schema({
         }
     },
     last_login: {
-        type: Date,
-        default: Date.now()
+        type: Number,
+        default: () => Date.now()
+    },
+    registered_at: {
+        type: Number,
+        default: () => Date.now()
     },
 });
 
