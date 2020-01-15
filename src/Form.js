@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Redirect } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -10,18 +11,20 @@ import Typography from "@material-ui/core/Typography";
 // import SignUp from './SignUp';
 import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles/FormStyles";
+import { LoggedInContext } from "./contexts/LoggedIn";
 import { ThemeContext } from "./contexts/ThemeContext";
 
 function Form(props) {
   const { isDarkMode } = useContext(ThemeContext);
+  const { loggedIn, changeLogIn } = useContext(LoggedInContext);
   const [isSignUp, setSignUp] = useState(false);
   const { classes } = props;
 
-  const [emailValue, setEmailValue] = useState("");
+  const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
-  const handleEmailChange = e => {
-    setEmailValue(e.target.value);
+  const handleUsernameChange = e => {
+    setUsernameValue(e.target.value);
   };
   const handlePasswordChange = e => {
     setPasswordValue(e.target.value);
@@ -34,49 +37,66 @@ function Form(props) {
   const handleClick = () => {
     setSignUp(!isSignUp);
   };
+  const reset = () => {
+    setUsernameValue("");
+    setPasswordValue("");
+  }
 
   const authSubmitHandler = async event => {
     event.preventDefault();
 
     if (!isSignUp) {
       try {
-        const response = await fetch('http://localhost:8181/auth', {
-          method: 'POST',
+        const response = await fetch("http://localhost:8181/auth", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            email: emailValue,
+            username: usernameValue,
             password: passwordValue
           })
         });
 
-      
         const responseData = await response.json();
+        if (responseData.code === 200) {
+          console.log("Success Response");
+          changeLogIn(true);
+          reset();
+        }
+        console.log("This is a response");
         console.log(responseData);
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
-        const response = await fetch("http://localhost:8181/auth", {
+        const response2 = await fetch("http://localhost:8181/auth", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            email: emailValue,
+            username: usernameValue,
             password: passwordValue
           })
         });
 
-        const responseData = await response.json();
-        console.log(responseData);
+        const responseData2 = await response2.json();
+        if (responseData2 === 201) {
+          console.log("Successful Sign Up");
+          reset();
+        }
+        console.log(responseData2);
       } catch (err) {
         console.log(err);
       }
     }
   };
+
+  if (loggedIn) {
+    return <Redirect to="/items" />;
+}
 
   return (
     <main className={classes.main}>
@@ -91,12 +111,25 @@ function Form(props) {
           <Typography variant="h5">Sign In</Typography>
           <form className={classes.form} onSubmit={authSubmitHandler}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email</InputLabel>
-              <Input id="email" name="email" value={emailValue} onChange={handleEmailChange} autoFocus />
+              <InputLabel htmlFor="username">Username</InputLabel>
+              <Input
+                id="username1"
+                name="username1"
+                value={usernameValue}
+                onChange={handleUsernameChange}
+                autoFocus
+              />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
-              <Input id="password" name="password" value={passwordValue} onChange={handlePasswordChange} autoFocus />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={passwordValue}
+                onChange={handlePasswordChange}
+                autoFocus
+              />
             </FormControl>
 
             <Button
@@ -131,12 +164,12 @@ function Form(props) {
           <Typography variant="h5">Sign Up</Typography>
           <form className={classes.form} onSubmit={authSubmitHandler}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel htmlFor="username">Username</InputLabel>
               <Input
-                id="email"
-                name="email"
-                value={emailValue}
-                onChange={handleEmailChange}
+                id="username2"
+                name="username"
+                value={usernameValue}
+                onChange={handleUsernameChange}
                 autoFocus
               />
             </FormControl>
@@ -145,6 +178,7 @@ function Form(props) {
               <Input
                 id="password"
                 name="password"
+                type="password"
                 value={passwordValue}
                 onChange={handlePasswordChange}
                 autoFocus
