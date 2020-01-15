@@ -67,20 +67,22 @@ class Admin extends App{
                     last_login: Date.now()
                 },
                 {
-                    new: true
+                    new: true // return the updated doc
                 },
                 (err, adminDoc) => {
                     if(!!err){
-                        onError && onError({
-                            errors: this.parseMongooseValidationErrors(err),
-                        });
-                        return;
+                        onError && onError({ errors: this.parseMongooseValidationErrors(err) });
+                    }else{
+                        if(!adminDoc){ // not signed in
+                            onError && onError({ errors: ['incorrect credentials'] });
+                        }else{
+                            onSuccess && onSuccess({
+                                _id: adminDoc._id,
+                                token: adminDoc.token,
+                                sign_in: true
+                            }, 200);
+                        }
                     }
-                    onSuccess && onSuccess({
-                        _id: adminDoc._id,
-                        token: adminDoc.token,
-                        sign_in: true
-                    }, 200);
                 }
             );
         });

@@ -808,5 +808,61 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "server/routes/items.js",
     "groupTitle": "Items"
+  },
+  {
+    "type": "put",
+    "url": "/items/:item_id",
+    "title": "Update Item",
+    "name": "Update_Item",
+    "group": "Items",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "item",
+            "description": "<p>See POST <code>/items</code> endpoint.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success: 200": [
+          {
+            "group": "Success: 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response updated object. See the GET <code>/items/:item_id</code> endpoint to know more about the return item object.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/items.js",
+    "groupTitle": "Items"
   }
 ] });

@@ -88,7 +88,38 @@ class Item extends App{
             );
         });
     }
-
+    /**
+    * @param {Sting} _id - Item ID.
+    * @param {Object} item - Object that contains the item date.
+    * @param {function} onSuccess - callback function for success
+    * @param {function} onError - callback function for error
+    */
+    updateItem(_id, item, onSuccess, onError){
+        this.connectDB(() => {
+            this.getItemModel().findOneAndUpdate(
+                { _id },
+                {
+                    title: item.title,
+                    description: item.description,
+                    price: item.price,
+                },
+                {
+                    new: true // return the updated doc
+                },
+                (err, updatedDoc) => {
+                    if(!!err){
+                        onError && onError({ errors: this.parseMongooseValidationErrors(err) });
+                    }else{
+                        if(!updatedDoc){ // not signed in
+                            onError && onError({ errors: ['this item is not found'] });
+                        }else{
+                            onSuccess && onSuccess(updatedDoc, 200);
+                        }
+                    }
+                }
+            );
+        });
+    }
 
 }
 

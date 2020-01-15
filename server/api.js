@@ -19,8 +19,9 @@ api.use(cookieParser());
 
 api.use(routeMiddlewares.EndWith);
 api.use(routeMiddlewares.CustomMulter);
-api.use(routeMiddlewares.Authentication);
 api.use(routeMiddlewares.ModifyHeader);
+api.use(routeMiddlewares.Authentication);
+
 
 
 /**

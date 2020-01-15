@@ -61,12 +61,34 @@ module.exports = (api) => {
      * @apiError (Error: 400) {Array} error.errors Array of errors.
      */
     api.post('/items', (req, res) => {
-        console.log('files', req.files);
+        //console.log('files', req.files);
         let submittedItem = req.body || {};
         submittedItem['photos'] = (req.files || []).map(f => f.filename);
         item.addItem(
             submittedItem,
             (data, code) => res.endWithSuccess(code || 201, data),
+            (error, code) => res.endWithError(code || 400, error)
+        );
+    });
+    /**
+     * @api {put} /items/:item_id Update Item
+     * @apiName Update Item
+     * @apiGroup Items
+     *
+     * @apiParam {Object} item See POST `/items` endpoint.
+     *
+     * @apiSuccess (Success: 200) {Object} data Response updated object. See the GET `/items/:item_id` endpoint to know more about the return item object.
+     *
+     * @apiError (Error: 400) {Object} error Error object.
+     * @apiError (Error: 400) {Array} error.errors Array of errors.
+     */
+    api.put('/items/:item_id', (req, res) => {
+        let submittedItem = req.body || {};
+        submittedItem['photos'] = (req.files || []).map(f => f.filename);
+        item.updateItem(
+            req.params.item_id,
+            submittedItem,
+            (data, code) => res.endWithSuccess(code || 200, data),
             (error, code) => res.endWithError(code || 400, error)
         );
     });

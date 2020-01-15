@@ -19,7 +19,7 @@ function Form(props) {
   const { loggedIn, changeLogIn } = useContext(LoggedInContext);
   const [isSignUp, setSignUp] = useState(false);
   const { classes } = props;
-
+  
   const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
