@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { LoggedInProvider, LoggedInContext } from "./contexts/LoggedIn";
+import React from "react";
+import { Switch, Route} from "react-router-dom";
+import { LoggedInProvider} from "./contexts/LoggedIn";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import SignIn from "./SignIn";
 import Index from "./CRUD/index";

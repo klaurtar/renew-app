@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -16,7 +16,7 @@ import { ThemeContext } from "./contexts/ThemeContext";
 
 function Form(props) {
   const { isDarkMode } = useContext(ThemeContext);
-  const { loggedIn, changeLogIn } = useContext(LoggedInContext);
+  const { changeLogIn, setToken } = useContext(LoggedInContext);
   const [isSignUp, setSignUp] = useState(false);
   const { classes } = props;
   
@@ -59,12 +59,13 @@ function Form(props) {
         });
 
         const responseData = await response.json();
-        if (responseData.code === 200) {
-          console.log("Success Response");
+        if (responseData.data.sign_in) {
+          console.log("Successful sign in");
+          setToken(responseData.data.token);
           changeLogIn(true);
           reset();
         }
-        console.log("This is a response");
+        
         console.log(responseData);
       } catch (err) {
         console.log(err);
@@ -83,11 +84,11 @@ function Form(props) {
         });
 
         const responseData2 = await response2.json();
-        if (responseData2 === 201) {
+        if (responseData2.data) {
           console.log("Successful Sign Up");
           reset();
         }
-        console.log(responseData2);
+        console.log(responseData2.data);
       } catch (err) {
         console.log(err);
       }

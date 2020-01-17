@@ -60,7 +60,7 @@ function ItemList(props) {
             value={value}
             onChange={handleChange}
             onRequestSearch={() => console.log(this.state.value)}
-            className={isDarkMode && classes.bgDark}
+            // className={isDarkMode && classes.bgDark}
           />
         </form>
       </div>
@@ -91,6 +91,7 @@ function ItemList(props) {
               name={item.name}
               price={item.price}
               views={item.views}
+              key={item.name}
             />
           );
         })}
