@@ -24,10 +24,11 @@ function Navbar(props) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      // NOTE )-> update state here, not after fetch promise
     })
     .catch((error) => console.log(error))
-    changeLogIn(false);
-    setToken();
+    changeLogIn(false); // make it within promise callback
+    setToken(); // make it within promise callback
   }
 
   return (
