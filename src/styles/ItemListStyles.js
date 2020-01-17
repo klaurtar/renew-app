@@ -13,7 +13,7 @@ const styles = theme => ({
       alignItems: "center"
   },
   darkText: {
-    color: "#2E3B55"
+    color: "white"
   },
   lightText: {
     color: "black"
@@ -36,7 +36,8 @@ const styles = theme => ({
     borderRadius: "15px"
   },
   bgDark: {
-    background: "#2E3B55"
+    background: "#2E3B55",
+    color: "white"
   },
   bgLight: {
     background: "rgb(93, 58, 255)"

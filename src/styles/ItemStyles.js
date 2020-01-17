@@ -50,7 +50,7 @@ const styles = theme => ({
     color: "red"
   },
   textDark: {
-    color: "green"
+    color: "white"
   },
   textLight: {
     color: "black"

@@ -31,7 +31,7 @@ const styles = theme => ({
             color: "white"
         },
         darkText: {
-            color: "#2E3B55"
+            color: "white"
         },
         lightText: {
             color: "black"
