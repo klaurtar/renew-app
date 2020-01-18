@@ -18,7 +18,7 @@ function GroupHeader(props) {
         >
           Group List
         </div>
-        <Link to="/items/new" style={{textDecoration: "none"}}>
+        <Link to="/groups/new" style={{textDecoration: "none"}}>
           <Button
             variant="contained"
             className={isDarkMode ? classes.createDark : classes.createLight}
