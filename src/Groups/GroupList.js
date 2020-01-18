@@ -7,7 +7,7 @@ import { withStyles } from "@material-ui/core";
 
 function GroupList(props) {
   // const [value, setValue] = useState("");
-  const [groupsState, setGroups] = useState({});
+  const [groupsState, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useContext(ThemeContext);
   const { token } = useContext(LoggedInContext);
@@ -33,9 +33,10 @@ function GroupList(props) {
       });
   }, []);
 
+  console.log(groupsState);
   const handleClick = (groupId) => {
     function removeGroup(groupId) {
-      setGroups(groupsState.filter(el => el !== groupId));
+      setGroups(groupsState.filter(el => el._id !== groupId));
     }
     fetch("http://localhost:8181/groups/" + groupId, {
       headers: {
