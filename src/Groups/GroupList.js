@@ -36,7 +36,7 @@ function GroupList(props) {
   console.log(groupsState);
   const handleClick = (groupId) => {
     function removeGroup(groupId) {
-      setGroups(groupsState.filter(el => el._id !== groupId));
+      setGroups(groups => groups.filter(el => el._id !== groupId));
     }
     fetch("http://localhost:8181/groups/" + groupId, {
       headers: {
