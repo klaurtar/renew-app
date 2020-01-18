@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -46,9 +47,20 @@ function Navbar(props) {
           <Switch onChange={toggleTheme} />
           <div className={classes.grow} />
           {loggedIn && (
-            <Button variant="contained" color="secondary" onClick={handleClick}>
-              Log Out
-            </Button>
+            <div className={classes.loggedIn}>
+              <div className={classes.navlinks}>
+                <NavLink to="/items" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}} exact>Items</NavLink>
+                <NavLink to="/groups" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}} exact>Groups</NavLink>
+              </div>
+              
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleClick}
+              >
+                Log Out
+              </Button>
+            </div>
           )}
         </Toolbar>
       </AppBar>
