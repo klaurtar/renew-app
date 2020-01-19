@@ -50,7 +50,7 @@ function Navbar(props) {
             <div className={classes.loggedIn}>
               <div className={classes.navlinks}>
                 <NavLink to="/items" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}} exact>Items</NavLink>
-                <NavLink to="/groups" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}} exact>Groups</NavLink>
+                <NavLink to="/groups" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}}>Groups</NavLink>
               </div>
               
               <Button

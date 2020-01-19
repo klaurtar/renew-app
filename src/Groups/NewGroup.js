@@ -5,14 +5,15 @@ import Navbar from "../Navbar";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import InputState from "../Hooks/useFormState";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { LoggedInContext } from "../contexts/LoggedIn";
+import { ThemeContext } from "../contexts/ThemeContext";
 import { withStyles } from "@material-ui/core";
 
 function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const styles = {
   heading: {
@@ -30,12 +31,32 @@ const styles = {
   buttons: {
     display: "flex",
     justifyContent: "space-between"
+  },
+  cssLabel: {
+    color: "white"
+  },
+  cssOutlinedInput: {
+    "&$cssFocused $notchedOutline": {
+      borderColor: "blue!important"
+    }
+  },
+
+  cssFocused: {},
+
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: "white !important"
+  },
+
+  multilineColor: {
+    color: "white"
   }
 };
 
 function NewGroup(props) {
   const history = useHistory();
   const { classes } = props;
+  const { isDarkMode } = useContext(ThemeContext);
   const { token } = useContext(LoggedInContext);
 
   const [groupNameValue, handleGroupNameChange, resetGroupName] = InputState(
@@ -51,16 +72,16 @@ function NewGroup(props) {
   const [open, setOpen] = useState(false);
 
   const handleSnackbarClick = () => {
-      setOpen(true);
-  }
+    setOpen(true);
+  };
 
   const handleSnackbarClose = (event, reason) => {
-      if (reason === 'clickaway') {
-          return;
-      }
+    if (reason === "clickaway") {
+      return;
+    }
 
-      setOpen(false);
-  }
+    setOpen(false);
+  };
 
   const goBackButton = () => {
     history.push("/groups");
@@ -80,18 +101,20 @@ function NewGroup(props) {
       },
       method: "POST"
     })
-    .then((res) => res.json())
-    .then((data) => {
+      .then(res => res.json())
+      .then(data => {
         resetGroupName();
         resetGroupUrl();
         resetGroupDescription();
         handleSnackbarClick();
-    })
+      });
   };
   return (
     <PageContent>
       <Navbar />
-      <h1 className={classes.heading}>New Group</h1>
+      <h1 className={classes.heading} style={{ color: isDarkMode && "white" }}>
+        New Group
+      </h1>
       <form
         className={classes.newForm}
         noValidate
@@ -105,14 +128,43 @@ function NewGroup(props) {
           variant="outlined"
           onChange={handleGroupNameChange}
           value={groupNameValue}
+          InputLabelProps={{
+            classes: {
+              root: isDarkMode && classes.cssLabel,
+              focused: classes.cssFocused
+            }
+          }}
+          InputProps={{
+            classes: {
+              root: isDarkMode && classes.cssOutlinedInput,
+              focused: classes.cssFocused,
+              notchedOutline: isDarkMode && classes.notchedOutline,
+              input: isDarkMode && classes.multilineColor
+            }
+          }}
         />
         <TextField
           required
           id="outlined-url"
           label="Facebook Group URL"
           variant="outlined"
+          style={{ color: isDarkMode && "white" }}
           onChange={handleGroupUrlChange}
           value={groupUrlValue}
+          InputLabelProps={{
+            classes: {
+              root: isDarkMode && classes.cssLabel,
+              focused: classes.cssFocused
+            }
+          }}
+          InputProps={{
+            classes: {
+              root: isDarkMode && classes.cssOutlinedInput,
+              focused: classes.cssFocused,
+              notchedOutline: isDarkMode && classes.notchedOutline,
+              input: isDarkMode && classes.multilineColor
+            }
+          }}
         />
         <TextField
           id="outlined-desc"
@@ -123,6 +175,20 @@ function NewGroup(props) {
           rowsMax={8}
           onChange={handleGroupDescriptionChange}
           value={groupDescriptionValue}
+          InputLabelProps={{
+            classes: {
+              root: isDarkMode && classes.cssLabel,
+              focused: classes.cssFocused
+            }
+          }}
+          InputProps={{
+            classes: {
+              root: isDarkMode && classes.cssOutlinedInput,
+              focused: classes.cssFocused,
+              notchedOutline: isDarkMode && classes.notchedOutline,
+              input: isDarkMode && classes.multilineColor
+            }
+          }}
         />
         <div className={classes.buttons}>
           <Button
@@ -141,7 +207,11 @@ function NewGroup(props) {
           </Button>
         </div>
       </form>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleSnackbarClose}>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
         <Alert onClose={handleSnackbarClose} severity="success">
           A new group was successfully added!
         </Alert>

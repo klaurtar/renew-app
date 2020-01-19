@@ -5,10 +5,10 @@ import { LoggedInContext } from "./contexts/LoggedIn";
 
 function PageContent(props) {
     const { isDarkMode } = useContext(ThemeContext);
-    const {loggedIn} = useContext(LoggedInContext);
+    // const {loggedIn} = useContext(LoggedInContext);
     const styles = {
                      backgroundColor: isDarkMode ? "black" : "white",
-                     height: !loggedIn ? "100vh" : "",
+                     minHeight: "100vh",
                      width: "100vw"
                  }
     return (
