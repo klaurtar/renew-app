@@ -13,6 +13,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles/FormStyles";
 import { LoggedInContext } from "./contexts/LoggedIn";
 import { ThemeContext } from "./contexts/ThemeContext";
+import Cookies from "js-cookie";
 
 function Form(props) {
   const { isDarkMode } = useContext(ThemeContext);
@@ -62,6 +63,7 @@ function Form(props) {
         if (responseData.data.sign_in) {
           console.log("Successful sign in");
           setToken(responseData.data.token);
+          Cookies.set("token", responseData.data.token);
           changeLogIn(true);
           reset();
         }
@@ -86,6 +88,7 @@ function Form(props) {
         const responseData2 = await response2.json();
         if (responseData2.data) {
           console.log("Successful Sign Up");
+          Cookies.set("token", responseData2.data.token);
           reset();
         }
         console.log(responseData2.data);
