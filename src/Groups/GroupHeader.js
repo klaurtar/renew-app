@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import styles from "../styles/IndexHeaderStyles";
+import styles from "../styles/GroupHeaderStyles";
 import { withStyles } from "@material-ui/core";
 import { ThemeContext } from "../contexts/ThemeContext";
 
-function IndexHeader(props) {
+function GroupHeader(props) {
   const { isDarkMode } = useContext(ThemeContext);
   const { classes } = props;
   return (
@@ -16,14 +16,14 @@ function IndexHeader(props) {
             isDarkMode ? classes.darkText : classes.lightText
           } `}
         >
-          Welcome, Ryan/Nedal!
+          Group List
         </div>
-        <Link to="/items/new" style={{textDecoration: "none"}}>
+        <Link to="/groups/new" style={{textDecoration: "none"}}>
           <Button
             variant="contained"
             className={isDarkMode ? classes.createDark : classes.createLight}
           >
-            New Post +
+            New Group +
           </Button>
         </Link>
       </div>
@@ -31,4 +31,4 @@ function IndexHeader(props) {
   );
 }
 
-export default withStyles(styles)(IndexHeader);
+export default withStyles(styles)(GroupHeader);

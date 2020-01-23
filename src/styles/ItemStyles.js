@@ -4,34 +4,46 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "space-around"
   },
+  flexBox: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%"
+  },
   image: {
     width: "33%",
     display: "block",
     margin: "0 auto"
   },
   one: {
-    width: "20%"
+    width: "16.66%"
   },
   name: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "20%"
+    width: "16.66%"
   },
   price: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "20%"
+    width: "16.66%"
   },
   views: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "20%"
+    width: "16.66%"
+  },
+  description: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "16.66%",
+    overflow: "hidden"
   },
   actions: {
-    width: "20%",
+    width: "16.66%",
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
@@ -50,7 +62,7 @@ const styles = theme => ({
     color: "red"
   },
   textDark: {
-    color: "green"
+    color: "white"
   },
   textLight: {
     color: "black"
