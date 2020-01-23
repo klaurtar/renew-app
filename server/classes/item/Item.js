@@ -1,6 +1,11 @@
 const App = require('../App');
 const mongoose = require('mongoose');
 const ItemSchema = require('./ItemSchema');
+const fs = require('fs');
+const path = require('path');
+/*
+*
+*/
 class Item extends App{
     constructor() {
         super();
@@ -82,10 +87,19 @@ class Item extends App{
             this.getItemModel().findOneAndDelete( {_id} , (err, doc) => {
                 if(!!err)
                     onError && onError({ errors: this.parseMongooseValidationErrors(err) });
-                else
+                else{
                     onSuccess && onSuccess({success: true});
+                    if(!!doc && doc.photos.length > 0){
+                        try{
+                            let itemDir = path.resolve(`${__dirname}./../../../${process.env.ITEM_PHOTOS_DIR}`);
+                            doc.photos.forEach(photo => fs.unlinkSync(itemDir + '/' + photo));
+                        }catch(e){
+                            console.log('error during deleting photo', e);
+                        }
+
+                    }
                 }
-            );
+            });
         });
     }
     /**
@@ -120,7 +134,32 @@ class Item extends App{
             );
         });
     }
+    /**
+    * @param {Sting} _id - Item ID.
+    * @param {Object} item - Object that contains the item date.
+    */
+    async updateItemSync(_id, update){
+        await this.connectDBSync();
+        let updatedDoc = await this.getItemModel().findOneAndUpdate( { _id }, update,
+            {
+                new: true // return the updated doc
+            }
+        ).exec();
+        return updatedDoc;
+    }
 
+    /**
+    *
+    */
+    async getNextItemToBePublishedSync(){
+        await this.connectDBSync();
+        let item = await this.getItemModel().findOne({
+            last_fb_published_at: {
+                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
+            }
+        }).sort({_id: -1}).exec();
+        return item;
+    }
 }
 
 module.exports = new Item();

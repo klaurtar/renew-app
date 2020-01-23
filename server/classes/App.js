@@ -32,6 +32,23 @@ class App {
     /**
     *
     */
+    async connectDBSync(onConnect, onError){
+        if(!this.db){
+            try {
+                this.db = mongoose.connect(`mongodb://localhost/${database}`,
+                    {
+                        useNewUrlParser: true,
+                        useUnifiedTopology: true,
+                    }
+                );
+            } catch (error) {
+                console.log('error in db connection');
+            }
+        }
+    }
+    /**
+    *
+    */
     generateToken(){
         return UUID() + '=' + UUID();
     }
