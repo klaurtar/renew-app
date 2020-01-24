@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {ThemeContext} from './contexts/ThemeContext';
-import { LoggedInContext } from "./contexts/LoggedIn";
+// import { LoggedInContext } from "./contexts/LoggedIn";
 
 
 function PageContent(props) {
