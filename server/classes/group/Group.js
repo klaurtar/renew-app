@@ -31,8 +31,16 @@ class Group extends App{
                 else
                     onSuccess && onSuccess(docs);
                 }
-            );
+            ).sort({_id: -1});
         });
+    }
+    /**
+    *
+    */
+    async getGroupsSync(filter){
+        await this.connectDBSync();
+        let groups = await this.getGroupModel().find( filter );
+        return groups;
     }
     /**
     * @param {Sting} _id - Group ID.

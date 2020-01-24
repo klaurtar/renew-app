@@ -17,6 +17,7 @@
     "material-ui-search-bar": "^1.0.0-beta.14",
     "mongoose": "^5.8.6",
     "multer": "^1.4.2",
+    "puppeteer": "^2.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
@@ -28,7 +29,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "api": "nodemon --watch server ./server/api",
-    "apidocs": "apidoc -i server -o server/apidocs"
+    "apidocs": "apidoc -i server -o server/apidocs",
+    "autopublish": "node ./server/puppeteer/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
