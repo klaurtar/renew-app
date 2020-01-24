@@ -90,20 +90,36 @@ function NewItem(props) {
   };
 
   const handleFileUpload = (e) => {
-    setFileState(e.target.files[0]);
+    //setFileState(e.target.files[0]);
+    setFileState(e.target.files);
+    //console.log(e.target.files, fileState);
+    //debugger;
   }
+
+  console.log('fileState', fileState);
 
   const handleNewItemSubmit = e => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('title', itemNameValue);
+    formData.append('price', itemPriceValue);
+    formData.append('description', itemDescriptionValue);
+    //formData.append('photos', fileState);
+    for (let i = 0; i < fileState.length; i++) {
+        formData.append('photos', fileState[i], fileState[i].name);
+    }
+
     fetch("http://localhost:8181/items", {
-      body: JSON.stringify({
+      /*body: JSON.stringify({
         title: itemNameValue,
         price: itemPriceValue,
         description: itemDescriptionValue,
         photos: fileState
-      }),
+    }),*/
+        body: formData,
       headers: {
-        "Content-Type": "application/json",
+        //"Content-Type": "application/json",
         Token: token
       },
       method: "POST"
@@ -170,7 +186,7 @@ function NewItem(props) {
             }
           }}
         />
-        
+
         <TextField
           id="outlined-desc"
           label="Facebook Item Description"
