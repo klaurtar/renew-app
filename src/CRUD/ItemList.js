@@ -80,7 +80,7 @@ function ItemList(props) {
         setItems(data.data.items);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   const handleChange = e => {
     setValue(e.target.value);

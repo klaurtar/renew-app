@@ -38,10 +38,10 @@ function GroupCheckbox(props) {
         setGroups(data.data);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{margin: `${props.margin}`}}>
       <div className={classes.group_header}>Groups</div>
       {loading ? (
         <h1>Loading...</h1>
@@ -49,7 +49,12 @@ function GroupCheckbox(props) {
         groups.map(x => {
           return (
             <div className={classes.specific_group} key={x._id}>
-              <input type="checkbox" id={x._id} name={x.name} />
+              <input
+                type="checkbox"
+                id={x._id}
+                name={x.name}
+                onChange={props.handleGroupCheckboxClick}
+              />
               <label htmlFor={x.name}>{x.name}</label>
             </div>
           );

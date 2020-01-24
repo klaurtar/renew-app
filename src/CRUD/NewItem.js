@@ -11,6 +11,8 @@ import GroupCheckbox from "../GroupCheckbox";
 import { LoggedInContext } from "../contexts/LoggedIn";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { withStyles } from "@material-ui/core";
+import Categories from "../Utilities/Category_List";
+import Select from "react-select";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -27,11 +29,12 @@ const styles = {
     paddingLeft: "15rem",
     paddingRight: "15rem",
     justifyContent: "space-between",
-    height: "500px"
+    height: "37.5rem"
   },
   buttons: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginBottom: "1rem"
   },
   cssLabel: {
     color: "white"
@@ -57,6 +60,14 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     width: "100%"
+  },
+
+  select: {
+    width: "100%"
+  },
+
+  checkbox: {
+    margin: "0 auto"
   }
 };
 
@@ -67,7 +78,7 @@ function NewItem(props) {
   const { token } = useContext(LoggedInContext);
 
   const [itemNameValue, handleItemNameChange, resetItemName] = InputState("");
-  const [itemPriceValue, handlePriceChange, resetPriceUrl] = InputState("");
+  const [itemPriceValue, handlePriceChange, resetPrice] = InputState("");
   const [
     itemDescriptionValue,
     handleItemDescriptionChange,
@@ -78,7 +89,11 @@ function NewItem(props) {
 
   const [open, setOpen] = useState(false);
 
-  const handleSnackbarClick = () => {
+  const [selectOption, setSelectOption] = useState(null);
+
+  const [selectedGroups, setSelectedGroups] = useState([]);
+
+  const handleSuccessSnackbarClick = () => {
     setOpen(true);
   };
 
@@ -94,25 +109,52 @@ function NewItem(props) {
     history.push("/items");
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = e => {
     setFileState(e.target.files);
+  };
+
+  const resetFileUpload = () => {
+    setFileState([]);
   }
 
+  const handleSelectOption = selectOption => {
+    setSelectOption(selectOption);
+    console.log(selectOption);
+  };
+
+  const resetSelectOption = () => {
+    setSelectOption(null);
+  };
+
+  const handleGroupCheckboxClick = event => {
+    let checkId = event.target.id;
+    setSelectedGroups([...selectedGroups, checkId]);
+    console.log(selectedGroups);
+  };
+
+  const resetGroupCheckbox = () => {
+    setSelectedGroups([]);
+  }
 
   const handleNewItemSubmit = e => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('title', itemNameValue);
-    formData.append('price', itemPriceValue);
-    formData.append('description', itemDescriptionValue);
+    formData.append("title", itemNameValue);
+    formData.append("price", itemPriceValue);
+    formData.append("description", itemDescriptionValue);
+    formData.append("category", selectOption.value);
+
+    for (let i = 0; i < selectedGroups.length; i++) {
+      formData.append("groups", selectedGroups[i]);
+    }
     //formData.append('photos', fileState);
     for (let i = 0; i < fileState.length; i++) {
-        formData.append('photos', fileState[i], fileState[i].name);
+      formData.append("photos", fileState[i], fileState[i].name);
     }
 
     fetch("http://localhost:8181/items", {
-        body: formData,
+      body: formData,
       headers: {
         //"Content-Type": "application/json",
         Token: token
@@ -122,9 +164,16 @@ function NewItem(props) {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        handleSnackbarClick();
-      });
-  }
+        handleSuccessSnackbarClick();
+        resetItemName();
+        resetPrice();
+        resetItemDescription();
+        resetSelectOption();
+        resetGroupCheckbox();
+        resetFileUpload();
+      })
+      .catch(error => console.log(error));
+  };
 
   // const handleFileUpload = event => {
   //   setFileState([...fileState, event.target.files[0]]);
@@ -155,7 +204,6 @@ function NewItem(props) {
   //     });
   // };
 
-
   // const handleNewItemSubmit = e => {
   //   e.preventDefault();
   //
@@ -181,7 +229,6 @@ function NewItem(props) {
   //     .then(result => console.log(result))
   //     .catch(error => console.log("error", error));
   // };
-
 
   return (
     <PageContent>
@@ -284,8 +331,15 @@ function NewItem(props) {
             </Button>
           </label> */}
           <input type="file" onChange={handleFileUpload} multiple />
-          <GroupCheckbox />
+          <Select
+            options={Categories}
+            placeholder="Category"
+            className={classes.select}
+            value={selectOption}
+            onChange={handleSelectOption}
+          />
         </div>
+        <GroupCheckbox className={classes.checkbox} handleGroupCheckboxClick={handleGroupCheckboxClick} margin={"0 auto"}/>
         <div className={classes.buttons}>
           <Button
             variant="outlined"

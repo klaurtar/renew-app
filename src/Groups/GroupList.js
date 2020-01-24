@@ -31,7 +31,7 @@ function GroupList(props) {
         setGroups(data.data);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   const removeGroup = (groupId) => {
     setGroups(groups => groups.filter(el => el._id !== groupId));
