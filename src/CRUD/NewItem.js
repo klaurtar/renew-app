@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import InputState from "../Hooks/useFormState";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import GroupCheckbox from "../GroupCheckbox";
 import { LoggedInContext } from "../contexts/LoggedIn";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { withStyles } from "@material-ui/core";
@@ -26,7 +27,7 @@ const styles = {
     paddingLeft: "15rem",
     paddingRight: "15rem",
     justifyContent: "space-between",
-    height: "400px"
+    height: "500px"
   },
   buttons: {
     display: "flex",
@@ -50,6 +51,12 @@ const styles = {
 
   multilineColor: {
     color: "white"
+  },
+
+  photo_groups: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%"
   }
 };
 
@@ -59,9 +66,7 @@ function NewItem(props) {
   const { isDarkMode } = useContext(ThemeContext);
   const { token } = useContext(LoggedInContext);
 
-  const [itemNameValue, handleItemNameChange, resetItemName] = InputState(
-    ""
-  );
+  const [itemNameValue, handleItemNameChange, resetItemName] = InputState("");
   const [itemPriceValue, handlePriceChange, resetPriceUrl] = InputState("");
   const [
     itemDescriptionValue,
@@ -89,30 +94,58 @@ function NewItem(props) {
     history.push("/items");
   };
 
-  const handleFileUpload = (e) => {
-    setFileState(e.target.files[0]);
-  }
+  const handleFileUpload = event => {
+    setFileState([...fileState, event.target.files[0]]);
+    console.log(event.target.files[0]);
+    console.log(fileState);
+  };
 
+  //This code works but photos always uploads as empty array
+  // const handleNewItemSubmit = e => {
+  //   e.preventDefault();
+  //   fetch("http://localhost:8181/items", {
+  //     body: JSON.stringify({
+  //       title: itemNameValue,
+  //       price: itemPriceValue,
+  //       description: itemDescriptionValue,
+  //       photos: fileState
+  //     }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Token: token
+  //     },
+  //     method: "POST"
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       handleSnackbarClick();
+  //     });
+  // };
   const handleNewItemSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:8181/items", {
-      body: JSON.stringify({
-        title: itemNameValue,
-        price: itemPriceValue,
-        description: itemDescriptionValue,
-        photos: fileState
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Token: token
-      },
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        handleSnackbarClick();
-      });
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "multipart/form-data");
+    myHeaders.append("token", JSON.stringify(token));
+
+    var formdata = new FormData();
+    formdata.append("title", JSON.stringify(itemNameValue));
+    formdata.append("description", JSON.stringify(itemDescriptionValue));
+    formdata.append("price", itemPriceValue);
+    formdata.append("photos", fileState.name);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow"
+    };
+
+    fetch("http://localhost:8181/items", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log("error", error));
   };
   return (
     <PageContent>
@@ -128,7 +161,7 @@ function NewItem(props) {
       >
         <TextField
           required
-          id="outlined-name"
+          id="outlined-name-1"
           label="Facebook Item Name"
           variant="outlined"
           onChange={handleItemNameChange}
@@ -150,7 +183,7 @@ function NewItem(props) {
         />
         <TextField
           required
-          id="outlined-name"
+          id="outlined-name-2"
           label="Facebook Item Price"
           variant="outlined"
           onChange={handlePriceChange}
@@ -170,7 +203,7 @@ function NewItem(props) {
             }
           }}
         />
-        
+
         <TextField
           id="outlined-desc"
           label="Facebook Item Description"
@@ -195,20 +228,28 @@ function NewItem(props) {
             }
           }}
         />
-        <input
-          accept="image/*"
-          className={classes.input}
-          style={{ display: "none" }}
-          id="raised-button-file"
-          multiple
-          type="file"
-          onChange={handleFileUpload}
-        />
-        <label htmlFor="raised-button-file">
-          <Button variant="raised" component="span" className={classes.button}>
-            Photo Upload
-          </Button>
-        </label>
+        <div className={classes.photo_groups}>
+          {/* <input
+            accept="image/*"
+            className={classes.input}
+            style={{ display: "none" }}
+            id="raised-button-file"
+            multiple
+            type="file"
+            onChange={handleFileUpload}
+          />
+          <label htmlFor="raised-button-file">
+            <Button
+              variant="raised"
+              component="span"
+              className={classes.button}
+            >
+              Photo Upload
+            </Button>
+          </label> */}
+          <input type="file" onChange={handleFileUpload} />
+          <GroupCheckbox />
+        </div>
         <div className={classes.buttons}>
           <Button
             variant="outlined"
