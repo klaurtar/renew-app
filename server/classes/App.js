@@ -18,6 +18,7 @@ class App {
                 {
                     useNewUrlParser: true,
                     useUnifiedTopology: true,
+                    useFindAndModify: false
                 }
             );
             this.db = mongoose.connection;
@@ -39,6 +40,7 @@ class App {
                     {
                         useNewUrlParser: true,
                         useUnifiedTopology: true,
+                        useFindAndModify: false
                     }
                 );
             } catch (error) {

@@ -37,7 +37,7 @@ class Item extends App{
                         onError && onError({ errors: this.parseMongooseValidationErrors(err) });
                         return;
                     }
-                    onSuccess && onSuccess({ items: docs }, 200);
+                    onSuccess && onSuccess(docs);
                 }
             ).sort({'_id': -1});
         });
@@ -155,7 +155,8 @@ class Item extends App{
         await this.connectDBSync();
         let item = await this.getItemModel().findOne({
             last_fb_published_at: {
-                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
+                //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
+                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24  ) ) // one day
             }
         }).sort({_id: -1}).exec();
         return item;

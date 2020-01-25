@@ -32,7 +32,7 @@ class FbItem extends App{
                         onError && onError({ errors: this.parseMongooseValidationErrors(err) });
                         return;
                     }
-                    onSuccess && onSuccess({ fbitems: docs }, 200);
+                    onSuccess && onSuccess(docs);
                 }
             ).sort({'_id': -1});
         });
@@ -55,10 +55,9 @@ class FbItem extends App{
     }
     /**
     * @param {Object} fbitem - Object that contains the fbitem date.
-    * @param {sting} fbitem.title - name of the user.
-    * @param {sting} fbitem.description - password of the user.
-    * @param {function} onSuccess - callback function for success
-    * @param {function} onError - callback function for error
+    * @param {mongoID} fbitem.item_id - id of related item.
+    * @param {Sting} fbitem.url - facebook URL.
+    * @param {Number} fbitem.published_at - timestamp date of publishing.
     */
     async addFbItemSync(fbitem){
         await this.connectDBSync();
@@ -67,20 +66,25 @@ class FbItem extends App{
         return fbitemDoc;
     }
     /**
-    * @param {Sting} _id - FbItem ID.
-    * @param {function} onSuccess - callback function for success
-    * @param {function} onError - callback function for error
+    * @param {Sting} _id - fbitem_id.
     */
-    deleteFbItem(_id, onSuccess, onError){
-        this.connectDB(() => {
-            this.getFbItemModel().findOneAndDelete( {_id} , (err, doc) => {
-                if(!!err)
-                    onError && onError({ errors: this.parseMongooseValidationErrors(err) });
-                else
-                    onSuccess && onSuccess({success: true});
-                }
-            );
-        });
+    async deleteFbItemSync(_id){
+        await this.connectDBSync();
+        await this.getFbItemModel().findOneAndDelete({ _id }).exec();
+    }
+
+    /**
+    *
+    */
+    async getNextItemToBeDeletedSync(){
+        await this.connectDBSync();
+        let item = await this.getFbItemModel().findOne({
+            published_at: {
+                //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
+                $lt: ( Date.now() - ( 1000 * 60 * 60 * 1 ) ) // one days
+            }
+        }).sort({_id: -1}).exec();
+        return item;
     }
 
 }

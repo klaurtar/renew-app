@@ -232,6 +232,247 @@ define({ "api": [
     "name": ""
   },
   {
+    "type": "delete",
+    "url": "/fbitem/:fbitem_id",
+    "title": "Delete FbItem",
+    "name": "Delete_FbItem",
+    "group": "FbItems",
+    "success": {
+      "fields": {
+        "Success: 200": [
+          {
+            "group": "Success: 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response object.</p>"
+          },
+          {
+            "group": "Success: 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "data.success",
+            "description": "<p>Is deleting process has been performed successfully or not.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/fbitems.js",
+    "groupTitle": "FbItems"
+  },
+  {
+    "type": "post",
+    "url": "/fbitems",
+    "title": "Publish Item",
+    "name": "Publish_Item",
+    "group": "FbItems",
+    "description": "<p>This request is responsible for notifying the automation process to publish the submitted item. And of course, the response is of the notification not the publishing process itself. The reason behind this is; the publishing process will take some time to finish. So, it you need to check the result of the publishing, make a further <code>GET /fbitems</code> request to see if there is new fbitem.</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "item_id",
+            "description": "<p>The id of the item to be published on facebook.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success: 201": [
+          {
+            "group": "Success: 201",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response object.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "Boolean",
+            "optional": false,
+            "field": "data.success",
+            "description": "<p>Response of publishing notification.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/fbitems.js",
+    "groupTitle": "FbItems"
+  },
+  {
+    "type": "get",
+    "url": "/fbitems/:fbitem_id",
+    "title": "Retrieve FbItem",
+    "name": "Retrieve_FbItem",
+    "group": "FbItems",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "fbitem_id",
+            "description": "<p>The id the fbitem you need to retrieve.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success: 200": [
+          {
+            "group": "Success: 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response object.</p>"
+          },
+          {
+            "group": "Success: 200",
+            "type": "String",
+            "optional": false,
+            "field": "data._id",
+            "description": "<p>The fbitem id.</p>"
+          },
+          {
+            "group": "Success: 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.item_id",
+            "description": "<p>The id of related item.</p>"
+          },
+          {
+            "group": "Success: 200",
+            "type": "String",
+            "optional": false,
+            "field": "data.url",
+            "description": "<p>The facebook URL of the fbitem.</p>"
+          },
+          {
+            "group": "Success: 200",
+            "type": "Number",
+            "optional": false,
+            "field": "data.published_at",
+            "description": "<p>The timestamp date where the fbitem has been published.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/fbitems.js",
+    "groupTitle": "FbItems"
+  },
+  {
+    "type": "get",
+    "url": "/fbitems",
+    "title": "Retrieve FbItems",
+    "name": "Retrieve_FbItems",
+    "group": "FbItems",
+    "success": {
+      "fields": {
+        "Success: 200": [
+          {
+            "group": "Success: 200",
+            "type": "Array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Array of fbitems. See the GET <code>/fbitems/:fbitem_id</code> endpoint to know more about the return fbitem object.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/fbitems.js",
+    "groupTitle": "FbItems"
+  },
+  {
     "type": "post",
     "url": "/groups",
     "title": "Create FB Group",

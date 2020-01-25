@@ -1,6 +1,6 @@
-const puppeteer = require("puppeteer");
+//const puppeteer = require("puppeteer");
 const CONFIG = require('./CONFIG');
-const utilities = require('../utilities');
+const utilities = require('./utilities');
 const item = require('../classes/item/Item');
 const fbitem = require('../classes/fbitem/FbItem');
 const group = require('../classes/group/Group');
@@ -26,69 +26,69 @@ var page;
 /*
 * open browser
 */
-async function openBrowser(argument) {
-    console.log('>>> openBrowser ');
-    // open the headless browser
-    browser = await puppeteer.launch({ headless: false });
-    //await browser.userAgent();
-    const context = browser.defaultBrowserContext();
-    await context.overridePermissions('https://www.facebook.com', ['notifications']);
-}
+// async function openBrowser(argument) {
+//     console.log('>>> openBrowser ');
+//     // open the headless browser
+//     browser = await puppeteer.launch({ headless: false });
+//     //await browser.userAgent();
+//     const context = browser.defaultBrowserContext();
+//     await context.overridePermissions('https://www.facebook.com', ['notifications']);
+// }
 
 /*
 * open page
 * @param {string} - pageUrl
 */
-async function openPage(pageUrl) {
-    try{
-        // open a new page
-        page = await browser.newPage();
-        await page.setViewport({
-            width: 999,
-            height: 650,
-        });
-        //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
-        console.log('>>> openPage of ', pageUrl);
-        await page.goto(pageUrl);
-    }catch(e){
-        console.log('[TIMEOUT] -> restart app');
-    }
-}
+// async function openPage(pageUrl) {
+//     try{
+//         // open a new page
+//         page = await browser.newPage();
+//         await page.setViewport({
+//             width: 999,
+//             height: 650,
+//         });
+//         //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
+//         console.log('>>> openPage of ', pageUrl);
+//         await page.goto(pageUrl);
+//     }catch(e){
+//         console.log('[TIMEOUT] -> restart app');
+//     }
+// }
 /*
 * login
 * @param {Object} - credentials
 */
-async function login(data) {
-    console.log('>>> log in with ', data.email, ' email');
-    await page.waitFor(500);
-    await page.evaluate((email, password) => {
-        document.querySelector('#email').value = email;
-        document.querySelector('#pass').value = password;
-        document.querySelector('#loginbutton').click();
-    }, data.email, data.password);
-    await page.waitForSelector('title');
+// async function login(data) {
+//     console.log('>>> log in with ', data.email, ' email');
+//     await page.waitFor(500);
+//     await page.evaluate((email, password) => {
+//         document.querySelector('#email').value = email;
+//         document.querySelector('#pass').value = password;
+//         document.querySelector('#loginbutton').click();
+//     }, data.email, data.password);
+//     await page.waitForSelector('title');
 }
 /*
 * open page
 * @param {string} - pageUrl
 */
-async function navigateTo(pageUrl) {
-    try{
-        console.log('>>> navigate to ', pageUrl);
-        await page.waitFor(200);
-        await page.goto(pageUrl);
-        await page.waitFor(200);
-    }catch(e){
-        console.log('[TIMEOUT] -> it took more time to navigate');
-    }
-}
+// async function navigateTo(pageUrl) {
+//     try{
+//         console.log('>>> navigate to ', pageUrl);
+//         await page.waitFor(200);
+//         await page.goto(pageUrl);
+//         await page.waitFor(200);
+//     }catch(e){
+//         console.log('[TIMEOUT] -> it took more time to navigate');
+//     }
+// }
 /*
 *
 */
-async function closeBrowser(){
-    console.log('>>> closeBrowser ');
-    await browser.close();
-}
+// async function closeBrowser(){
+//     console.log('>>> closeBrowser ');
+//     await browser.close();
+// }
 /*
 *
 */
@@ -108,18 +108,22 @@ async function openSellingDialog(){
 async function fillOutDialogData(){
     let itemBtn = await utilities.keepWaitingForSelector(page, 'a._4e31[role=button]');
     await itemBtn.click();
-
+    // fill out the category
     let cateInput = await utilities.keepWaitingForSelector(page, 'input._58al[data-testid="searchable-text-input"]');
     await cateInput.type(itemToBePublished.category);
-
+    // select the category from the autoComplete list
     let autoCompleteLi = await utilities.keepWaitingForSelector(page, 'li[role="option"][data-testid="choose_contact_button"]');
     await autoCompleteLi.click();
-
+    // fill out the title
     let titleInput = await utilities.keepWaitingForSelector(page, '._2t_f input._58al[type="text"]');
     await titleInput.type(itemToBePublished.title);
-
+    // fill out the price
     let priceInput = await utilities.keepWaitingForSelector(page, 'input[placeholder="Price"]');
     await priceInput.type('' + itemToBePublished.price);
+
+    // fill out the description
+    let descriptionInput = await utilities.keepWaitingForSelector(page, 'div[data-testid="status-attachment-mentions-input"][contenteditable="true"]');
+    await descriptionInput.type(itemToBePublished.description || '');
 
     //await listenToPhotoUploading();
 
@@ -204,34 +208,70 @@ async function shareOnGroups(itemUrl = publishedItemUrl, groups){
 async function publish(item_){
     itemToBePublished = item_;
 
-    try{
-        await openBrowser();
-        await openPage(CONFIG.facebookUrl);
-        await login({ email: CONFIG.email, password: CONFIG.password });
 
-        await navigateTo(CONFIG.sellingPage);
-        await openSellingDialog();
-        await fillOutDialogData();
+    if(!!CONFIG.email && !!CONFIG.password){
+        try{
+            browser = await utilities.openBrowser();
+            page = await utilities.openPage(browser, CONFIG.facebookUrl);
+            await utilities.fbLogin(page, {
+                email: CONFIG.email,
+                password: CONFIG.password
+            });
+            await utilities.navigateTo(page, CONFIG.sellingPage);
+            await openSellingDialog();
+            await fillOutDialogData();
 
+            if(!!publishedItemUrl.match(/https:\/\/www.facebook.com\/marketplace\/item\/[0-9]/)){
+                // add fbitem
+                await saveFbItem();
+                // update item
+                await item.updateItemSync(itemToBePublished._id, {last_fb_published_at: Date.now()});
+                // publish on groups
+                if(itemToBePublished.groups.length > 0){
+                    let itemGroups = await retreiveItemGroups();
+                    await shareOnGroups(publishedItemUrl, itemGroups);
+                }
 
-        if(!!publishedItemUrl.match(/https:\/\/www.facebook.com\/marketplace\/item\/[0-9]/)){
-            // add fbitem
-            await saveFbItem();
-            // update item
-            await item.updateItemSync(itemToBePublished._id, {last_fb_published_at: Date.now()});
-            // publish on groups
-            if(itemToBePublished.groups.length > 0){
-                let itemGroups = await retreiveItemGroups();
-                await shareOnGroups(publishedItemUrl, itemGroups);
             }
+            await browser.close();
 
+        }catch(e){
+            console.log(e);
         }
-
-        await closeBrowser();
-
-    }catch(e){
-        console.log(e);
+    }else{
+        console.log("Set email and password");
     }
+
+
+
+    // try{
+    //     //await openBrowser();
+    //     //await openPage(CONFIG.facebookUrl);
+    //     //await login({ email: CONFIG.email, password: CONFIG.password });
+    //
+    //     await navigateTo(CONFIG.sellingPage);
+    //     await openSellingDialog();
+    //     await fillOutDialogData();
+    //
+    //
+    //     if(!!publishedItemUrl.match(/https:\/\/www.facebook.com\/marketplace\/item\/[0-9]/)){
+    //         // add fbitem
+    //         await saveFbItem();
+    //         // update item
+    //         await item.updateItemSync(itemToBePublished._id, {last_fb_published_at: Date.now()});
+    //         // publish on groups
+    //         if(itemToBePublished.groups.length > 0){
+    //             let itemGroups = await retreiveItemGroups();
+    //             await shareOnGroups(publishedItemUrl, itemGroups);
+    //         }
+    //
+    //     }
+    //
+    //     await closeBrowser();
+    //
+    // }catch(e){
+    //     console.log(e);
+    // }
 
 }
 

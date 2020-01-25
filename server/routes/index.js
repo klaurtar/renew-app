@@ -3,4 +3,5 @@ module.exports = api => {
     require('./auth')(api);
     require('./items')(api);
     require('./groups')(api);
+    require('./fbitems')(api);
 }
