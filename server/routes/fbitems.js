@@ -1,4 +1,5 @@
 const fbitem = require('../classes/fbitem/FbItem');
+const eventManager = require('../eventManager');
 
 module.exports = (api) => {
     /**
@@ -60,10 +61,9 @@ module.exports = (api) => {
      */
     api.post('/fbitems', (req, res) => {
         //fire event
-        let submittedFbItem = req.body || {};
-        res.endWithSuccess(code || 201, {
-            success: true
-        });
+        let submittedItem = req.body || {};
+        eventManager.emit('publishItem', submittedItem.item_id);
+        res.endWithSuccess(200, { success: true });
     });
 
     /**
@@ -86,10 +86,8 @@ module.exports = (api) => {
      */
      api.delete('/fbitems/:fbitem_id', (req, res) => {
          //fire event
-         let submittedFbItem = req.body || {};
-         res.endWithSuccess(code || 201, {
-             success: true
-         });
+         eventManager.emit('removeFbItem', req.params['fbitem_id']);
+         res.endWithSuccess(200, { success: true });
      });
 
 }

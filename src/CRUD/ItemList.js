@@ -77,7 +77,8 @@ function ItemList(props) {
     })
       .then(res => res.json())
       .then(data => {
-        setItems(data.data.items);
+          //setItems(data.data.items);
+        setItems(data.data);
         setLoading(false);
       });
   }, [token]);

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const routeMiddlewares = require('./routeMiddlewares');
 
+const puppeteerPlayer = require('./puppeteer');
 const routes = require('./routes');
 
 const api = express();

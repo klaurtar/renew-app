@@ -2,11 +2,16 @@ const puppeteer = require("puppeteer");
 module.exports = {
     openBrowser: async function() {
         console.log('>>> openBrowser ');
-        // open the headless browser
-        let browser = await puppeteer.launch({ headless: false });
-        //await browser.userAgent();
-        const context = browser.defaultBrowserContext();
-        await context.overridePermissions('https://www.facebook.com', ['notifications']);
+        let browser;
+        try{
+            // open the headless browser
+            browser = await puppeteer.launch({ headless: false });
+            //await browser.userAgent();
+            const context = browser.defaultBrowserContext();
+            await context.overridePermissions('https://www.facebook.com', ['notifications']);
+        }catch(e){
+            browser = await module.exports['openBrowser'];
+        }
         return browser;
     },
     openPage: async function(browser, pageUrl) {

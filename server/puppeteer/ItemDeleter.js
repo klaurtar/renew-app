@@ -110,7 +110,7 @@ async function openDeleteDialogAndDelete() {
 
 /************************/
 
-async function deleteFbItem(item){
+async function playDeleteProcess(item){
     itemToBeDeleted = item;
 
     if(!!CONFIG.email && !!CONFIG.password){
@@ -130,7 +130,14 @@ async function deleteFbItem(item){
             await browser.close();
             await fbitem.deleteFbItemSync(itemToBeDeleted._id);
         }catch(e){
+            console.log('error happened');
             console.log(e);
+            if(!!browser){
+                try {
+                    await browser.close();
+                    browser = false;
+                } catch (e) {}
+            }
         }
     }else{
         console.log("Set email and password");
@@ -145,7 +152,17 @@ async function deleteNextItem(){
     let nextItem = await fbitem.getNextItemToBeDeletedSync();
     if(!!nextItem){
         console.log('will delete this fbitem', nextItem);
-        await deleteFbItem(nextItem);
+        await playDeleteProcess(nextItem);
+    }
+}
+/*
+*
+*/
+async function deleteFbItem(fbitemId){
+    let nextItem = await fbitem.getFbItemSync(fbitemId);
+    if(!!nextItem){
+        console.log('will delete this fbitem', nextItem);
+        await playDeleteProcess(nextItem);
     }
 }
 

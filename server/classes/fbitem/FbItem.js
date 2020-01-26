@@ -54,6 +54,14 @@ class FbItem extends App{
         });
     }
     /**
+    *
+    */
+    async getFbItemSync(_id){
+        await this.connectDBSync();
+        let fbitem = await this.getFbItemModel().findOne({_id}).exec();
+        return fbitem;
+    }
+    /**
     * @param {Object} fbitem - Object that contains the fbitem date.
     * @param {mongoID} fbitem.item_id - id of related item.
     * @param {Sting} fbitem.url - facebook URL.

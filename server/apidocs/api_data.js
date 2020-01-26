@@ -237,6 +237,20 @@ define({ "api": [
     "title": "Delete FbItem",
     "name": "Delete_FbItem",
     "group": "FbItems",
+    "description": "<p>This request is responsible for notifying the automation process to delete the submitted fbitem. And of course, the response is of the notification not the deleting process itself. The reason behind this is; the deleting process will take some time to finish. So, if you need to check the result of the deleting, make a further <code>GET /fbitems</code> request to see if the fbitem has been deleted yet or not.</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>The id of the fbitem to be deleted from facebook.</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Success: 200": [
@@ -246,13 +260,15 @@ define({ "api": [
             "optional": false,
             "field": "data",
             "description": "<p>Response object.</p>"
-          },
+          }
+        ],
+        "Success: 201": [
           {
-            "group": "Success: 200",
+            "group": "Success: 201",
             "type": "Boolean",
             "optional": false,
             "field": "data.success",
-            "description": "<p>Is deleting process has been performed successfully or not.</p>"
+            "description": "<p>Response of deleting notification.</p>"
           }
         ]
       }
@@ -287,7 +303,7 @@ define({ "api": [
     "title": "Publish Item",
     "name": "Publish_Item",
     "group": "FbItems",
-    "description": "<p>This request is responsible for notifying the automation process to publish the submitted item. And of course, the response is of the notification not the publishing process itself. The reason behind this is; the publishing process will take some time to finish. So, it you need to check the result of the publishing, make a further <code>GET /fbitems</code> request to see if there is new fbitem.</p>",
+    "description": "<p>This request is responsible for notifying the automation process to publish the submitted item. And of course, the response is of the notification not the publishing process itself. The reason behind this is; the publishing process will take some time to finish. So, if you need to check the result of the publishing, make a further <code>GET /fbitems</code> request to see if the new fbitem has been published yet or not.</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -400,7 +416,7 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "data.published_at",
-            "description": "<p>The timestamp date where the fbitem has been published.</p>"
+            "description": "<p>The timestamp date when the fbitem has been published.</p>"
           }
         ]
       }

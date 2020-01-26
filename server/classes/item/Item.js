@@ -59,6 +59,14 @@ class Item extends App{
         });
     }
     /**
+    *
+    */
+    async getItemSync(_id){
+        await this.connectDBSync();
+        let item = await this.getItemModel().findOne({_id}).exec();
+        return item;
+    }
+    /**
     * @param {Object} item - Object that contains the item date.
     * @param {sting} item.title - name of the user.
     * @param {sting} item.description - password of the user.

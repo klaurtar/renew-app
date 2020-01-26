@@ -1,4 +1,4 @@
-//const puppeteer = require("puppeteer");
+const path = require('path');
 const CONFIG = require('./CONFIG');
 const utilities = require('./utilities');
 const item = require('../classes/item/Item');
@@ -23,72 +23,6 @@ var browser;
 var page;
 
 
-/*
-* open browser
-*/
-// async function openBrowser(argument) {
-//     console.log('>>> openBrowser ');
-//     // open the headless browser
-//     browser = await puppeteer.launch({ headless: false });
-//     //await browser.userAgent();
-//     const context = browser.defaultBrowserContext();
-//     await context.overridePermissions('https://www.facebook.com', ['notifications']);
-// }
-
-/*
-* open page
-* @param {string} - pageUrl
-*/
-// async function openPage(pageUrl) {
-//     try{
-//         // open a new page
-//         page = await browser.newPage();
-//         await page.setViewport({
-//             width: 999,
-//             height: 650,
-//         });
-//         //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
-//         console.log('>>> openPage of ', pageUrl);
-//         await page.goto(pageUrl);
-//     }catch(e){
-//         console.log('[TIMEOUT] -> restart app');
-//     }
-// }
-/*
-* login
-* @param {Object} - credentials
-*/
-// async function login(data) {
-//     console.log('>>> log in with ', data.email, ' email');
-//     await page.waitFor(500);
-//     await page.evaluate((email, password) => {
-//         document.querySelector('#email').value = email;
-//         document.querySelector('#pass').value = password;
-//         document.querySelector('#loginbutton').click();
-//     }, data.email, data.password);
-//     await page.waitForSelector('title');
-}
-/*
-* open page
-* @param {string} - pageUrl
-*/
-// async function navigateTo(pageUrl) {
-//     try{
-//         console.log('>>> navigate to ', pageUrl);
-//         await page.waitFor(200);
-//         await page.goto(pageUrl);
-//         await page.waitFor(200);
-//     }catch(e){
-//         console.log('[TIMEOUT] -> it took more time to navigate');
-//     }
-// }
-/*
-*
-*/
-// async function closeBrowser(){
-//     console.log('>>> closeBrowser ');
-//     await browser.close();
-// }
 /*
 *
 */
@@ -128,7 +62,9 @@ async function fillOutDialogData(){
     //await listenToPhotoUploading();
 
     let photosBtn = await utilities.keepWaitingForSelector(page, 'input[data-testid="add-more-photos"]');
-    let photos = (itemToBePublished.photos).map(photo => `../../cdn/item_photos/${photo}`);
+    //let photos = (itemToBePublished.photos).map(photo => `../../cdn/item_photos/${photo}`);
+    let photos = (itemToBePublished.photos).map(photo => path.resolve(`${__dirname}./../../cdn/item_photos/${photo}`));
+    console.log('>>>>>>>>>>photos', photos);
     await photosBtn.uploadFile(...photos);
 
     let nextBtn = await utilities.keepWaitingForSelector(page, '.rfloat ._332r button[data-testid="react-composer-post-button"]:not([disabled])');
@@ -169,7 +105,7 @@ async function fillOutDialogData(){
 async function shareOnGroups(itemUrl = publishedItemUrl, groups){
     if(groups.length > 0){
         for(let i = 0; i < groups.length; i++){
-            await navigateTo(groups[i]['url']);
+            await utilities.navigateTo(page, groups[i]['url']);
             let startDisscutionBtn = await utilities.keepWaitingForSelector(page, 'a[label="Start Discussion"][data-testid="status-attachment-selector"]');
             await startDisscutionBtn.click();
 
@@ -195,17 +131,14 @@ async function shareOnGroups(itemUrl = publishedItemUrl, groups){
                 itemFbId = itemFbId[0];
                 await utilities.keepWaitingForSelector(page, `div[data-fsii="${itemFbId}"]`, false, 7);
             }
-
-
         }
-
     }
 }
 
 
 /************************/
 
-async function publish(item_){
+async function playePublishProcess(item_){
     itemToBePublished = item_;
 
 
@@ -236,7 +169,14 @@ async function publish(item_){
             await browser.close();
 
         }catch(e){
+            console.log('error happened');
             console.log(e);
+            if(!!browser){
+                try {
+                    await browser.close();
+                    browser = false;
+                } catch (e) {}
+            }
         }
     }else{
         console.log("Set email and password");
@@ -282,7 +222,17 @@ async function publishNextItem(){
     let nextItem = await item.getNextItemToBePublishedSync();
     if(!!nextItem){
         console.log('will publish this item', nextItem);
-        await publish(nextItem);
+        await playePublishProcess(nextItem);
+    }
+}
+/*
+*
+*/
+async function publishItem(itemId){
+    let nextItem = await item.getItemSync(itemId);
+    if(!!nextItem){
+        console.log('will publish this item', nextItem);
+        await playePublishProcess(nextItem);
     }
 }
 /*
@@ -310,6 +260,6 @@ async function retreiveItemGroups(){
 
 
 module.exports = {
-    publish: publish,
+    publishItem: publishItem,
     publishNextItem: publishNextItem
 }
