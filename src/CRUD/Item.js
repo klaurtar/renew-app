@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import styles from "../styles/ItemStyles";
 import { withStyles } from "@material-ui/core";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 function Item(props) {
+  const history = useHistory();
   const { isDarkMode } = useContext(ThemeContext);
   const { classes, handleDeleteItemClick } = props;
+
+  const editButton = () => {
+    history.push(`/items/edit/${props.id}`);
+  }
   return (
     <div
       className={`${classes.root} ${
@@ -25,7 +31,7 @@ function Item(props) {
         <div className={classes.views}>{props.views}</div>
         <div className={classes.description}>{props.description}</div>
         <div className={classes.actions}>
-          <button>
+          <button onClick={editButton}>
             <i className="far fa-edit fa-2x" style={{ color: "green" }}></i>
           </button>
           <button onClick={() => handleDeleteItemClick(props.id)}>
@@ -38,5 +44,3 @@ function Item(props) {
 }
 
 export default withStyles(styles)(Item);
-
-

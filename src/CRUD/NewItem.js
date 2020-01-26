@@ -363,7 +363,7 @@ function NewItem(props) {
         onClose={handleSnackbarClose}
       >
         <Alert onClose={handleSnackbarClose} severity="success">
-          {itemNameValue} was successfully added!
+          The item was successfully added!
         </Alert>
       </Snackbar>
     </PageContent>
