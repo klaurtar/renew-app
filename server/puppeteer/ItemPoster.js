@@ -182,37 +182,6 @@ async function playePublishProcess(item_){
         console.log("Set email and password");
     }
 
-
-
-    // try{
-    //     //await openBrowser();
-    //     //await openPage(CONFIG.facebookUrl);
-    //     //await login({ email: CONFIG.email, password: CONFIG.password });
-    //
-    //     await navigateTo(CONFIG.sellingPage);
-    //     await openSellingDialog();
-    //     await fillOutDialogData();
-    //
-    //
-    //     if(!!publishedItemUrl.match(/https:\/\/www.facebook.com\/marketplace\/item\/[0-9]/)){
-    //         // add fbitem
-    //         await saveFbItem();
-    //         // update item
-    //         await item.updateItemSync(itemToBePublished._id, {last_fb_published_at: Date.now()});
-    //         // publish on groups
-    //         if(itemToBePublished.groups.length > 0){
-    //             let itemGroups = await retreiveItemGroups();
-    //             await shareOnGroups(publishedItemUrl, itemGroups);
-    //         }
-    //
-    //     }
-    //
-    //     await closeBrowser();
-    //
-    // }catch(e){
-    //     console.log(e);
-    // }
-
 }
 
 /*

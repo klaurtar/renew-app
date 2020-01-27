@@ -164,7 +164,8 @@ class Item extends App{
         let item = await this.getItemModel().findOne({
             last_fb_published_at: {
                 //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
-                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24  ) ) // one day
+                //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24  ) ) // one day
+                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 7 ) ) // seven days
             }
         }).sort({_id: -1}).exec();
         return item;

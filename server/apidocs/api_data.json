@@ -778,6 +778,111 @@
     "groupTitle": "Groups"
   },
   {
+    "type": "put",
+    "url": "/groups",
+    "title": "Update FB Group",
+    "name": "Update_FB_Group",
+    "group": "Groups",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Facebook group name.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>URL of the Facebook group.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "description",
+            "description": "<p>Optional, the description.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success: 201": [
+          {
+            "group": "Success: 201",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>Response object.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "String",
+            "optional": false,
+            "field": "data._id",
+            "description": "<p>The group id.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "String",
+            "optional": false,
+            "field": "data.name",
+            "description": "<p>The name of the group.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "String",
+            "optional": false,
+            "field": "data.url",
+            "description": "<p>The fb URL of the group.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "String",
+            "optional": false,
+            "field": "data.description",
+            "description": "<p>The description of the group.</p>"
+          },
+          {
+            "group": "Success: 201",
+            "type": "Number",
+            "optional": false,
+            "field": "data.created_at",
+            "description": "<p>The timestamp of group creation date.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error: 400": [
+          {
+            "group": "Error: 400",
+            "type": "Object",
+            "optional": false,
+            "field": "error",
+            "description": "<p>Error object.</p>"
+          },
+          {
+            "group": "Error: 400",
+            "type": "Array",
+            "optional": false,
+            "field": "error.errors",
+            "description": "<p>Array of errors.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "server/routes/groups.js",
+    "groupTitle": "Groups"
+  },
+  {
     "type": "post",
     "url": "/items",
     "title": "Create Item",

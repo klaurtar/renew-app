@@ -12,7 +12,7 @@ const api = express();
 const PORT = process.env.API_PORT || 8181;
 
 /**
-* apply some middlewares
+* apply some middlewares 
 */
 api.use(bodyParser.json());
 api.use(bodyParser.raw());

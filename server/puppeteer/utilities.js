@@ -6,11 +6,24 @@ module.exports = {
         try{
             // open the headless browser
             browser = await puppeteer.launch({ headless: false });
+
+            // browser = await puppeteer.launch({
+            //     //headless: false,
+            //     args: [
+            //         '--disable-gpu',
+            //         '--disable-dev-shm-usage',
+            //         '--disable-setuid-sandbox',
+            //         '--no-first-run',
+            //         '--no-sandbox',
+            //         '--no-zygote'
+            //     ]
+            // });
+
             //await browser.userAgent();
             const context = browser.defaultBrowserContext();
             await context.overridePermissions('https://www.facebook.com', ['notifications']);
         }catch(e){
-            browser = await module.exports['openBrowser'];
+            browser = await module.exports['openBrowser']();
         }
         return browser;
     },
@@ -24,10 +37,10 @@ module.exports = {
         // console.log('>>> openPage of ', pageUrl);
         // await page.goto(pageUrl);
         // return page;
-
+        let page;
         try{
             // open a new page
-            let page = await browser.newPage();
+            page = await browser.newPage();
             await page.setViewport({
                 width: 999,
                 height: 650,
@@ -35,10 +48,12 @@ module.exports = {
             //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
             console.log('>>> openPage of ', pageUrl);
             await page.goto(pageUrl);
-            return page;
+
         }catch(e){
-            console.log('[TIMEOUT] -> restart app');
+            console.log('[TIMEOUT] -> page opening error, restart app', e);
+            page = await module.exports['openPage'](browser, pageUrl);
         }
+        return page;
     },
     navigateTo: async function(page, pageUrl) {
         try{

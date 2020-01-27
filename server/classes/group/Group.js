@@ -93,6 +93,38 @@ class Group extends App{
             );
         });
     }
+    /**
+    * @param {Sting} _id - Item ID.
+    * @param {Object} group - Object that contains the group data.
+    * @param {function} onSuccess - callback function for success
+    * @param {function} onError - callback function for error
+    */
+    updateGroup(_id, group, onSuccess, onError){
+        this.connectDB(() => {
+            this.getGroupModel().findOneAndUpdate(
+                { _id },
+                {
+                    name: group.name,
+                    description: group.description || '',
+                    url: group.url,
+                },
+                {
+                    new: true // return the updated doc
+                },
+                (err, updatedDoc) => {
+                    if(!!err){
+                        onError && onError({ errors: this.parseMongooseValidationErrors(err) });
+                    }else{
+                        if(!updatedDoc){ // not signed in
+                            onError && onError({ errors: ['this item is not found'] });
+                        }else{
+                            onSuccess && onSuccess(updatedDoc, 200);
+                        }
+                    }
+                }
+            );
+        });
+    }
 }
 
 module.exports = new Group();

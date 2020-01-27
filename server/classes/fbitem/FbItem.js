@@ -89,7 +89,8 @@ class FbItem extends App{
         let item = await this.getFbItemModel().findOne({
             published_at: {
                 //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 3 ) ) // three days
-                $lt: ( Date.now() - ( 1000 * 60 * 60 * 1 ) ) // one days
+                //$lt: ( Date.now() - ( 1000 * 60 * 60 * 24 ) ) // one day
+                $lt: ( Date.now() - ( 1000 * 60 * 60 * 24 * 6 ) ) // six days
             }
         }).sort({_id: -1}).exec();
         return item;
