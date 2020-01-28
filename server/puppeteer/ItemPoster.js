@@ -129,7 +129,7 @@ async function shareOnGroups(itemUrl = publishedItemUrl, groups){
             let itemFbId;
             if(itemFbId = itemUrl.match(/[0-9]+/g)){
                 itemFbId = itemFbId[0];
-                await utilities.keepWaitingForSelector(page, `div[data-fsii="${itemFbId}"]`, false, 7);
+                await utilities.keepWaitingForSelector(page, `div[data-fsii="${itemFbId}"]`, false, 3);
             }
         }
     }
