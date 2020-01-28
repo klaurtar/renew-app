@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import InputState from "../Hooks/useFormState";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import styles from "../styles/NewGroupStyles";
 import { LoggedInContext } from "../contexts/LoggedIn";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { withStyles } from "@material-ui/core";
@@ -14,44 +15,6 @@ import { withStyles } from "@material-ui/core";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const styles = {
-  heading: {
-    textAlign: "center",
-    fontSize: "3rem"
-  },
-  newForm: {
-    display: "flex",
-    flexDirection: "column",
-    paddingLeft: "15rem",
-    paddingRight: "15rem",
-    justifyContent: "space-between",
-    height: "300px"
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between"
-  },
-  cssLabel: {
-    color: "white"
-  },
-  cssOutlinedInput: {
-    "&$cssFocused $notchedOutline": {
-      borderColor: "blue!important"
-    }
-  },
-
-  cssFocused: {},
-
-  notchedOutline: {
-    borderWidth: "1px",
-    borderColor: "white !important"
-  },
-
-  multilineColor: {
-    color: "white"
-  }
-};
 
 function NewGroup(props) {
   const history = useHistory();
@@ -89,7 +52,7 @@ function NewGroup(props) {
 
   const handleNewGroupSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:8181/groups", {
+    fetch(process.env.REACT_APP_SERVER + "groups", {
       body: JSON.stringify({
         name: groupNameValue,
         url: groupUrlValue,

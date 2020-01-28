@@ -7,11 +7,11 @@ import { ThemeContext } from "../contexts/ThemeContext";
 function Item(props) {
   const history = useHistory();
   const { isDarkMode } = useContext(ThemeContext);
-  const { classes, handleDeleteItemClick } = props;
+  const { classes, handleDeleteItemClick, handleImmediateFacebookPost } = props;
 
   const editButton = () => {
     history.push(`/items/edit/${props.id}`);
-  }
+  };
   return (
     <div
       className={`${classes.root} ${
@@ -22,7 +22,7 @@ function Item(props) {
         <div className={classes.one}>
           <img
             className={classes.image}
-            src={`http://localhost:8181/item_photo_of/${props.image}`}
+            src={`${process.env.REACT_APP_SERVER}item_photo_of/${props.image}`}
             alt={props.name}
           />
         </div>
@@ -36,6 +36,9 @@ function Item(props) {
           </button>
           <button onClick={() => handleDeleteItemClick(props.id)}>
             <i className="fas fa-trash fa-2x" style={{ color: "red" }}></i>
+          </button>
+          <button onClick={() => handleImmediateFacebookPost(props.id)}>
+            <i class="fas fa-ghost fa-2x" style={{ color: "#715AFF" }}></i>
           </button>
         </div>
       </div>

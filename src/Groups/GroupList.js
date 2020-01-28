@@ -20,7 +20,7 @@ function GroupList(props) {
   // };
 
   useEffect(() => {
-    fetch("http://localhost:8181/groups", {
+    fetch(process.env.REACT_APP_SERVER + "groups", {
       headers: {
         "Content-Type": "application/json",
         Token: token
@@ -39,7 +39,7 @@ function GroupList(props) {
 
   console.log(groupsState);
   const handleDeleteGroupClick = (groupId) => {
-    fetch("http://localhost:8181/groups/" + groupId, {
+    fetch(process.env.REACT_APP_SERVER + "groups/" + groupId, {
       headers: {
         "Content-Type": "application/json",
         Token: token

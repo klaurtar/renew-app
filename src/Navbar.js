@@ -18,7 +18,7 @@ function Navbar(props) {
   const { classes } = props;
 
   const handleClick = () => {
-    fetch("http://localhost:8181/auth", {
+    fetch(process.env.REACT_APP_SERVER + "auth", {
       method: "DELETE",
       headers: {
         token: token

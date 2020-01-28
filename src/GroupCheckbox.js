@@ -1,24 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { LoggedInContext } from "./contexts/LoggedIn";
+import styles from "./styles/GroupCheckboxStyles";
 import { withStyles } from "@material-ui/core";
-
-const styles = {
-  root: {
-    borderRadius: "15px",
-    padding: "1rem",
-    backgroundColor: "rgb(93, 58, 255)",
-    width: "400px",
-    boxShadow: "10px 10px 5px -5px rgba(0,0,0,0.25)"
-  },
-  group_header: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: "2rem"
-  },
-  specific_group: {
-    margin: ".5rem 0"
-  }
-};
 
 function GroupCheckbox(props) {
   const [groups, setGroups] = useState([]);
@@ -27,7 +10,7 @@ function GroupCheckbox(props) {
   const { classes } = props;
 
   useEffect(() => {
-    fetch("http://localhost:8181/groups", {
+    fetch(process.env.REACT_APP_SERVER + "groups", {
       headers: {
         "Content-Type": "application/json",
         Token: token
@@ -41,7 +24,7 @@ function GroupCheckbox(props) {
   }, [token]);
 
   return (
-    <div className={classes.root} style={{margin: `${props.margin}`}}>
+    <div className={classes.root} style={{ margin: `${props.margin}` }}>
       <div className={classes.group_header}>Groups</div>
       {loading ? (
         <h1>Loading...</h1>

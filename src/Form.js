@@ -48,7 +48,7 @@ function Form(props) {
 
     if (!isSignUp) {
       try {
-        const response = await fetch("http://localhost:8181/auth", {
+        const response = await fetch(process.env.REACT_APP_SERVER + "auth", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -74,7 +74,7 @@ function Form(props) {
       }
     } else {
       try {
-        const response2 = await fetch("http://localhost:8181/auth", {
+        const response2 = await fetch(process.env.REACT_APP_SERVER + "auth", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

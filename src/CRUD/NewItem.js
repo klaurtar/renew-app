@@ -10,6 +10,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import GroupCheckbox from "../GroupCheckbox";
 import { LoggedInContext } from "../contexts/LoggedIn";
 import { ThemeContext } from "../contexts/ThemeContext";
+import styles from "../styles/NewItemStyles";
 import { withStyles } from "@material-ui/core";
 import Categories from "../Utilities/Category_List";
 import Select from "react-select";
@@ -17,59 +18,6 @@ import Select from "react-select";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const styles = {
-  heading: {
-    textAlign: "center",
-    fontSize: "3rem"
-  },
-  newForm: {
-    display: "flex",
-    flexDirection: "column",
-    paddingLeft: "15rem",
-    paddingRight: "15rem",
-    justifyContent: "space-between",
-    height: "37.5rem"
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "1rem"
-  },
-  cssLabel: {
-    color: "white"
-  },
-  cssOutlinedInput: {
-    "&$cssFocused $notchedOutline": {
-      borderColor: "blue!important"
-    }
-  },
-
-  cssFocused: {},
-
-  notchedOutline: {
-    borderWidth: "1px",
-    borderColor: "white !important"
-  },
-
-  multilineColor: {
-    color: "white"
-  },
-
-  photo_groups: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%"
-  },
-
-  select: {
-    width: "100%"
-  },
-
-  checkbox: {
-    margin: "0 auto"
-  }
-};
 
 function NewItem(props) {
   const history = useHistory();
@@ -115,7 +63,7 @@ function NewItem(props) {
 
   const resetFileUpload = () => {
     setFileState([]);
-  }
+  };
 
   const handleSelectOption = selectOption => {
     setSelectOption(selectOption);
@@ -134,7 +82,7 @@ function NewItem(props) {
 
   const resetGroupCheckbox = () => {
     setSelectedGroups([]);
-  }
+  };
 
   const handleNewItemSubmit = e => {
     e.preventDefault();
@@ -153,7 +101,7 @@ function NewItem(props) {
       formData.append("photos", fileState[i], fileState[i].name);
     }
 
-    fetch("http://localhost:8181/items", {
+    fetch(process.env.REACT_APP_SERVER + "items", {
       body: formData,
       headers: {
         //"Content-Type": "application/json",
@@ -339,7 +287,11 @@ function NewItem(props) {
             onChange={handleSelectOption}
           />
         </div>
-        <GroupCheckbox className={classes.checkbox} handleGroupCheckboxClick={handleGroupCheckboxClick} margin={"0 auto"}/>
+        <GroupCheckbox
+          className={classes.checkbox}
+          handleGroupCheckboxClick={handleGroupCheckboxClick}
+          margin={"0 auto"}
+        />
         <div className={classes.buttons}>
           <Button
             variant="outlined"

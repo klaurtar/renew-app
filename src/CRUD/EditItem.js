@@ -4,7 +4,6 @@ import PageContent from "../PageContent";
 import Navbar from "../Navbar";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import GroupCheckbox from "../GroupCheckbox";
@@ -44,7 +43,7 @@ function EditItem(props) {
     setItemDescription(e.target.value);
   };
   useEffect(() => {
-    fetch(`http://localhost:8181/items/${props.match.params.id}`, {
+    fetch(`${process.env.REACT_APP_SERVER}items/${props.match.params.id}`, {
       headers: {
         "Content-Type":
           "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
@@ -85,21 +84,16 @@ function EditItem(props) {
     setFileState(e.target.files);
   };
 
-  
-
   const handleSelectOption = selectOption => {
     setSelectOption(selectOption);
     console.log(selectOption);
   };
-
-  
 
   const handleGroupCheckboxClick = event => {
     let checkId = event.target.id;
     setSelectedGroups([...selectedGroups, checkId]);
     console.log(selectedGroups);
   };
-
 
   const handleNewItemSubmit = e => {
     e.preventDefault();
@@ -118,7 +112,7 @@ function EditItem(props) {
       formData.append("photos", fileState[i], fileState[i].name);
     }
 
-    fetch("http://localhost:8181/items", {
+    fetch(process.env.REACT_APP_SERVER + "items", {
       body: formData,
       headers: {
         //"Content-Type": "application/json",
@@ -138,7 +132,7 @@ function EditItem(props) {
     <PageContent>
       <Navbar />
       <h1 className={classes.heading} style={{ color: isDarkMode && "white" }}>
-        New Item
+        Edit Item
       </h1>
       {loading ? (
         <h1>Loading...</h1>

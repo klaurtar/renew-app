@@ -6,7 +6,6 @@ import Item from "./Item";
 import SearchBar from "material-ui-search-bar";
 import { withStyles } from "@material-ui/core";
 
-
 // const initialPosts = [
 //   {
 //     image:
@@ -67,17 +66,16 @@ function ItemList(props) {
     //   ' [\n        "5e238c027c25620386bd8ceb",\n        "5e23728a7c25620386bd8ce5"\n    ]'
     // );
 
-    fetch("http://localhost:8181/items", {
+    fetch(process.env.REACT_APP_SERVER + "items", {
       headers: {
         "Content-Type":
           "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-        Token:
-          token
+        Token: token
       }
     })
       .then(res => res.json())
       .then(data => {
-          //setItems(data.data.items);
+        //setItems(data.data.items);
         setItems(data.data);
         setLoading(false);
       });
@@ -90,25 +88,41 @@ function ItemList(props) {
     setValue("");
   };
 
-  const removeItem = (itemId) => {
+  const removeItem = itemId => {
     setItems(items => items.filter(el => el._id !== itemId));
-  }
+  };
 
-  const handleDeleteItemClick = (itemId) => {
-    fetch("http://localhost:8181/items/" + itemId, {
+  const handleDeleteItemClick = itemId => {
+    fetch(process.env.REACT_APP_SERVER + "items/" + itemId, {
       headers: {
         "Content-Type": "application/json",
         Token: token
       },
       method: "DELETE"
     })
-      .then((res) => {
+      .then(res => {
         return res.json();
       })
-      .then((data) => {
-      console.log(data.data)
-      removeItem(itemId);
-      })
+      .then(data => {
+        console.log(data.data);
+        removeItem(itemId);
+      });
+  };
+
+  const handleImmediateFacebookPost = itemId => {
+    fetch(process.env.REACT_APP_SERVER + "fbitems", {
+      headers: {
+        "Content-Type": "application/json",
+        Token: token
+      },
+      body: JSON.stringify({
+        item_id: itemId
+      }),
+      method: "POST"
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
   };
   return (
     <div className={classes.root}>
@@ -141,38 +155,42 @@ function ItemList(props) {
             isDarkMode ? classes.bgDark : classes.bgLight
           }`}
         >
-          <div style={{width: "16.6666%", textAlign: "center"}}>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>
             Picture <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{width: "16.6666%", textAlign: "center"}}>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>
             Name <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{width: "16.6666%", textAlign: "center"}}>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>
             Price <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{width: "16.6666%", textAlign: "center"}}>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>
             Views <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{width: "16.6666%", textAlign: "center"}}>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>
             Description <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{width: "16.6666%", textAlign: "center"}}>Actions</div>
+          <div style={{ width: "16.6666%", textAlign: "center" }}>Actions</div>
         </div>
-        {loading ? <h1>Loading...</h1> :
-        itemsState.map(item => {
-          return (
-            <Item
-              image={item.photos[0]}
-              name={item.title}
-              price={item.price}
-              views={item.views}
-              description={item.description}
-              handleDeleteItemClick={handleDeleteItemClick}
-              id={item._id}
-              key={item._id}
-            />
-          );
-        })}
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : (
+          itemsState.map(item => {
+            return (
+              <Item
+                image={item.photos[0]}
+                name={item.title}
+                price={item.price}
+                views={item.views}
+                description={item.description}
+                handleDeleteItemClick={handleDeleteItemClick}
+                handleImmediateFacebookPost={handleImmediateFacebookPost}
+                id={item._id}
+                key={item._id}
+              />
+            );
+          })
+        )}
       </div>
     </div>
   );
