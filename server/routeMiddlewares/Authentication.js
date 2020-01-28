@@ -10,7 +10,7 @@ const Authentication = function(req, res, next) {
     	next();
     }else{
         admin.isAdminAuthenticated(
-            req.cookies['token'],
+            req.cookies['token'] || req.headers['token'],
             (authenticatedAdmin) => {
                 if(!!authenticatedAdmin){
                     req.__authenticatedAdmin = authenticatedAdmin;

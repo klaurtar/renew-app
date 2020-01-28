@@ -86,4 +86,33 @@ module.exports = (api) => {
              (error, code) => res.endWithError(code || 400, error)
          );
      });
+
+     /**
+      * @api {put} /groups Update FB Group
+      * @apiName Update FB Group
+      * @apiGroup Groups
+      *
+      * @apiParam {String} name Facebook group name.
+      * @apiParam {String} url URL of the Facebook group.
+      * @apiParam {String} [description] Optional, the description.
+      *
+      * @apiSuccess (Success: 201) {Object} data Response object.
+      * @apiSuccess (Success: 201) {String} data._id The group id.
+      * @apiSuccess (Success: 201) {String} data.name The name of the group.
+      * @apiSuccess (Success: 201) {String} data.url The fb URL of the group.
+      * @apiSuccess (Success: 201) {String} data.description The description of the group.
+      * @apiSuccess (Success: 201) {Number} data.created_at The timestamp of group creation date.
+      *
+      * @apiError (Error: 400) {Object} error Error object.
+      * @apiError (Error: 400) {Array} error.errors Array of errors.
+      */
+      api.put('/groups/:group_id', (req, res) => {
+         let submittedGroup = req.body || {};
+         group.updateGroup(
+             req.params.group_id,
+             submittedGroup,
+             (data, code) => res.endWithSuccess(code || 200, data),
+             (error, code) => res.endWithError(code || 400, error)
+         );
+     });
 }

@@ -1,16 +1,18 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname + './../.env') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const routeMiddlewares = require('./routeMiddlewares');
 
+const puppeteerPlayer = require('./puppeteer');
 const routes = require('./routes');
 
 const api = express();
 const PORT = process.env.API_PORT || 8181;
 
 /**
-* apply some middlewares
+* apply some middlewares 
 */
 api.use(bodyParser.json());
 api.use(bodyParser.raw());
