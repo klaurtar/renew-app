@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import IndexHeader from "./IndexHeader";
 import ItemList from "./ItemList";
 
+
 export default function Index() {
   return (
     <PageContent>
