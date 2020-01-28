@@ -56,7 +56,8 @@ async function markItemAsSold() {
 */
 async function displaySoldItems() {
     // hide active items
-    let hideActiveItemBtn = await utilities.keepWaitingForSelector(page, 'div#js_1 div.rfloat[role="button"]');
+    //let hideActiveItemBtn = await utilities.keepWaitingForSelector(page, 'div#js_1 div.rfloat[role="button"]');
+    let hideActiveItemBtn = await utilities.keepWaitingForSelector(page, 'div.rfloat[role="button"]');
     await hideActiveItemBtn.click();
 
     try{
@@ -67,7 +68,8 @@ async function displaySoldItems() {
             await page.waitFor(2000);
             try{
                 //console.log('iteration ..', hideItemBtns.length);
-                hideItemBtns = await page.$$('div#js_1 div.rfloat[role="button"]');
+                //hideItemBtns = await page.$$('div#js_1 div.rfloat[role="button"]');
+                hideItemBtns = await page.$$('div.rfloat[role="button"]');
 
             }catch(e){
                 console.log("here orrror");
