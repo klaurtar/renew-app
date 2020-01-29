@@ -38,7 +38,7 @@ function Item(props) {
             <i className="fas fa-trash fa-2x" style={{ color: "red" }}></i>
           </button>
           <button onClick={() => handleImmediateFacebookPost(props.id)}>
-            <i class="fas fa-ghost fa-2x" style={{ color: "#715AFF" }}></i>
+            <i className="fas fa-ghost fa-2x" style={{ color: "#715AFF" }}></i>
           </button>
         </div>
       </div>

@@ -16,7 +16,7 @@ function IndexHeader(props) {
             isDarkMode ? classes.darkText : classes.lightText
           } `}
         >
-          Welcome, Ryan/Nedal!
+          Welcome, Ryan!
         </div>
         <Link to="/items/new" style={{textDecoration: "none"}}>
           <Button
