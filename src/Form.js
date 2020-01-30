@@ -20,7 +20,7 @@ function Form(props) {
   const { changeLogIn, setToken } = useContext(LoggedInContext);
   const [isSignUp, setSignUp] = useState(false);
   const { classes } = props;
-  
+
   const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
@@ -67,7 +67,7 @@ function Form(props) {
           changeLogIn(true);
           reset();
         }
-        
+
         console.log(responseData);
       } catch (err) {
         console.log(err);
