@@ -16,6 +16,7 @@ import { ThemeContext } from "./contexts/ThemeContext";
 import Cookies from "js-cookie";
 
 function Form(props) {
+  // let _isMounted = false;
   const { isDarkMode } = useContext(ThemeContext);
   const { changeLogIn, setToken } = useContext(LoggedInContext);
   const [isSignUp, setSignUp] = useState(false);
@@ -41,14 +42,18 @@ function Form(props) {
   const reset = () => {
     setUsernameValue("");
     setPasswordValue("");
-  }
+  };
 
-  const authSubmitHandler = async event => {
+  // useEffect(() => {
+  //   _isMounted = true;
+  // }, []);
+
+  const authSubmitHandler = event => {
     event.preventDefault();
 
     if (!isSignUp) {
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER + "auth", {
+        fetch(process.env.REACT_APP_SERVER + "auth", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -57,24 +62,42 @@ function Form(props) {
             username: usernameValue,
             password: passwordValue
           })
-        });
+        })
+          .then(res => res.json())
+          .then(responseData => {
+            if (responseData.data.sign_in) {
+              console.log("Successful sign in");
+              console.log(responseData);
+              setToken(responseData.data.token);
+              Cookies.set("token", responseData.data.token);
+              changeLogIn(true);
+            }
+          });
+        // const response = await fetch(process.env.REACT_APP_SERVER + "auth", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   },
+        //   body: JSON.stringify({
+        //     username: usernameValue,
+        //     password: passwordValue
+        //   })
+        // });
 
-        const responseData = await response.json();
-        if (responseData.data.sign_in) {
-          console.log("Successful sign in");
-          setToken(responseData.data.token);
-          Cookies.set("token", responseData.data.token);
-          changeLogIn(true);
-          reset();
-        }
-
-        console.log(responseData);
+        // const responseData = await response.json();
+        // if (responseData.data.sign_in) {
+        //   console.log("Successful sign in");
+        //   setToken(responseData.data.token);
+        //   Cookies.set("token", responseData.data.token);
+        //   changeLogIn(true);
+        //   reset();
+        // }
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
-        const response2 = await fetch(process.env.REACT_APP_SERVER + "auth", {
+        fetch(process.env.REACT_APP_SERVER + "auth", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
@@ -83,24 +106,48 @@ function Form(props) {
             username: usernameValue,
             password: passwordValue
           })
-        });
+        })
+          .then(res => res.json())
+          .then(responseData2 => {
+            if (responseData2.data) {
+              console.log("Successful Sign Up");
+              console.log(responseData2.data);
+              Cookies.set("token", responseData2.data.token);
+              reset();
+            }
+          });
+        // const response2 = await fetch(process.env.REACT_APP_SERVER + "auth", {
+        //   method: "PUT",
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   },
+        //   body: JSON.stringify({
+        //     username: usernameValue,
+        //     password: passwordValue
+        //   })
+        // });
 
-        const responseData2 = await response2.json();
-        if (responseData2.data) {
-          console.log("Successful Sign Up");
-          Cookies.set("token", responseData2.data.token);
-          reset();
-        }
-        console.log(responseData2.data);
+        // const responseData2 = await response2.json();
+        // if (responseData2.data) {
+        //   console.log("Successful Sign Up");
+        //   Cookies.set("token", responseData2.data.token);
+        //   reset();
+        // }
+        // console.log(responseData2.data);
       } catch (err) {
         console.log(err);
       }
     }
   };
 
-//   if (loggedIn) {
-//     return <Redirect to="/items" />;
-// }
+  // useEffect(() => {
+  //   return () => {
+  //     _isMounted = false;
+  //   };
+  // }, []);
+  //   if (loggedIn) {
+  //     return <Redirect to="/items" />;
+  // }
 
   return (
     <main className={classes.main}>
