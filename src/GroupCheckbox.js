@@ -4,10 +4,11 @@ import styles from "./styles/GroupCheckboxStyles";
 import { withStyles } from "@material-ui/core";
 
 function GroupCheckbox(props) {
+    //const [selectedGroups, setSelectedGroups] = useState([]);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const { token } = useContext(LoggedInContext);
-  const { classes } = props;
+  const { selectedGroups, classes } = props;
 
   useEffect(() => {
     fetch(process.env.REACT_APP_SERVER + "groups", {
@@ -30,6 +31,7 @@ function GroupCheckbox(props) {
         <h1>Loading...</h1>
       ) : (
         groups.map(x => {
+
           return (
             <div className={classes.specific_group} key={x._id}>
               <input
@@ -37,6 +39,7 @@ function GroupCheckbox(props) {
                 id={x._id}
                 name={x.name}
                 onChange={props.handleGroupCheckboxClick}
+                defaultChecked={(selectedGroups.indexOf(x._id) !== -1)? true: false}
               />
               <label htmlFor={x.name}>{x.name}</label>
             </div>

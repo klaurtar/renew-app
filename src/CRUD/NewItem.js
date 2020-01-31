@@ -74,9 +74,20 @@ function NewItem(props) {
     setSelectOption(null);
   };
 
+<<<<<<< HEAD
   const handleGroupCheckboxClick = ({ target: { id }})=> {
     setSelectedGroups((s) => ({ ...s, [id]: !s[id] }));
     console.log(selectedGroups);
+=======
+  const handleGroupCheckboxClick = event => {
+    let checkId = event.target.id;
+    if(event.target.checked){
+        setSelectedGroups([...selectedGroups, checkId]);
+    }else{
+        let spliceedGroups = selectedGroups.splice(selectedGroups.indexOf(checkId), 1)
+        setSelectedGroups([...spliceedGroups]);
+    }
+>>>>>>> 45577de885cae83ab9e0e5b3b64d2285606b07ee
   };
 
   const resetGroupCheckbox = () => {
@@ -84,8 +95,7 @@ function NewItem(props) {
   };
 
   const handleNewItemSubmit = e => {
-    e.preventDefault();
-
+      e.preventDefault();
     const formData = new FormData();
     formData.append("title", itemNameValue);
     formData.append("price", itemPriceValue);
@@ -290,6 +300,7 @@ function NewItem(props) {
           className={classes.checkbox}
           handleGroupCheckboxClick={handleGroupCheckboxClick}
           margin={"0 auto"}
+          selectedGroups={selectedGroups}
         />
         <div className={classes.buttons}>
           <Button
