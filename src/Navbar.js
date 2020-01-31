@@ -49,10 +49,26 @@ function Navbar(props) {
           {loggedIn && (
             <div className={classes.loggedIn}>
               <div className={classes.navlinks}>
-                <NavLink to="/items" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}}>Items</NavLink>
-                <NavLink to="/groups" activeStyle={{background: "rgba(0, 0, 0, 0.5)"}}>Groups</NavLink>
+                <NavLink
+                  to="/items"
+                  activeStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+                >
+                  Items
+                </NavLink>
+                <NavLink
+                  to="/facebookitems"
+                  activeStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+                >
+                  <i className="fab fa-facebook-square"></i> Posts
+                </NavLink>
+                <NavLink
+                  to="/groups"
+                  activeStyle={{ background: "rgba(0, 0, 0, 0.5)" }}
+                >
+                  <i className="fab fa-facebook-square"></i> Groups
+                </NavLink>
               </div>
-              
+
               <Button
                 variant="contained"
                 color="secondary"

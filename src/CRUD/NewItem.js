@@ -39,7 +39,7 @@ function NewItem(props) {
 
   const [selectOption, setSelectOption] = useState(null);
 
-  const [selectedGroups, setSelectedGroups] = useState([]);
+  const [selectedGroups, setSelectedGroups] = useState({});
 
   const handleSuccessSnackbarClick = () => {
     setOpen(true);
@@ -74,9 +74,8 @@ function NewItem(props) {
     setSelectOption(null);
   };
 
-  const handleGroupCheckboxClick = event => {
-    let checkId = event.target.id;
-    setSelectedGroups([...selectedGroups, checkId]);
+  const handleGroupCheckboxClick = ({ target: { id }})=> {
+    setSelectedGroups((s) => ({ ...s, [id]: !s[id] }));
     console.log(selectedGroups);
   };
 

@@ -8,6 +8,7 @@ import NewItem from "./CRUD/NewItem";
 import EditItem from "./CRUD/EditItem";
 import GroupIndex from "./Groups/GroupIndex";
 import NewGroup from "./Groups/NewGroup";
+import FacebookItemIndex from "./FacebookItems/Index";
 import PrivateRoute from "./PrivateRoute";
 import "./App.css";
 
@@ -25,6 +26,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path="/items/edit/:id">
             <Route render={props => <EditItem {...props} />} />
+          </PrivateRoute>
+          <PrivateRoute exact path="/facebookitems">
+            <Route render={() => <FacebookItemIndex />} />
           </PrivateRoute>
           <PrivateRoute exact path="/groups">
             <Route render={() => <GroupIndex />} />
