@@ -1,5 +1,3 @@
-[![Demo](http://www.giphy.com/gifs/iDh0HazWyrq9fbt9XT)]
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
