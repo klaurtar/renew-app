@@ -32,7 +32,7 @@ function FacebookItemList(props) {
 
   console.log(facebookItemState);
   const handleDeletefbItemClick = (fbItemId) => {
-    fetch(process.env.REACT_APP_SERVER + "fbitem/" + fbItemId, {
+    fetch(process.env.REACT_APP_SERVER + "fbitems/" + fbItemId, {
       headers: {
         "Content-Type": "application/json",
         Token: token

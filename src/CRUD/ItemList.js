@@ -142,6 +142,7 @@ function ItemList(props) {
           }}
         >
           <SearchBar
+            className={classes.searchbar}
             value={value}
             onChange={handleChange}
             onRequestSearch={() => console.log(this.state.value)}
@@ -156,18 +157,18 @@ function ItemList(props) {
           }`}
         >
           <div style={{ width: "16.6666%", textAlign: "center" }}>
-            Picture <i className="fas fa-sort-down"></i>
+            Picture <i className={`fas fa-sort-down ${classes.mobileFriendly}`}></i>
           </div>
           <div style={{ width: "16.6666%", textAlign: "center" }}>
-            Name <i className="fas fa-sort-down"></i>
+            Name <i className={`fas fa-sort-down ${classes.mobileFriendly}`}></i>
           </div>
-          <div style={{ width: "16.6666%", textAlign: "center" }}>
+          <div className={classes.mobileFriendly} style={{ width: "16.6666%", textAlign: "center" }}>
             Price <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{ width: "16.6666%", textAlign: "center" }}>
+          <div className={classes.mobileFriendly} style={{ width: "16.6666%", textAlign: "center" }}>
             Views <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{ width: "16.6666%", textAlign: "center" }}>
+          <div className={classes.mobileFriendly} style={{ width: "16.6666%", textAlign: "center" }}>
             Description <i className="fas fa-sort-down"></i>
           </div>
           <div style={{ width: "16.6666%", textAlign: "center" }}>Actions</div>

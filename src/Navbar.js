@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +16,7 @@ function Navbar(props) {
     LoggedInContext
   );
   const { classes } = props;
+  const [mobileHamburgerOpen, setMobileHamburger] = useState(false);
 
   const handleClick = () => {
     fetch(process.env.REACT_APP_SERVER + "auth", {
@@ -34,6 +35,10 @@ function Navbar(props) {
       .catch(error => console.log(error));
   };
 
+  const handleMobileClick = () => {
+    setMobileHamburger(!mobileHamburgerOpen);
+    console.log(mobileHamburgerOpen);
+  };
   return (
     <div className={classes.root}>
       <AppBar
@@ -68,13 +73,22 @@ function Navbar(props) {
                   <i className="fab fa-facebook-square"></i> Groups
                 </NavLink>
               </div>
-
+              
               <Button
+              className={classes.logOutButton}
                 variant="contained"
                 color="secondary"
                 onClick={handleClick}
               >
                 Log Out
+              </Button>
+              <Button
+                className={classes.hamburgerMenu}
+                variant="contained"
+                color="primary"
+                onClick={handleMobileClick}
+              >
+                <i className="fas fa-bars"></i>
               </Button>
             </div>
           )}

@@ -13,10 +13,7 @@ const styles = theme => ({
     marginRight: 20
   },
   title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+    display: 'block'
   },
   search: {
     position: "relative",
@@ -66,6 +63,14 @@ const styles = theme => ({
     paddingLeft: "2rem"
   },
   navlinks: {
+    // [theme.breakpoints.down("sm")]: {
+    //   position: 'absolute',
+    //   backgroundColor: "rgba(0,0,0,.7)",
+    //   top: '0%',
+    //   right: '0%',
+    //   width: '100vw',
+    //   height: '100vh'
+    // },
     "& a": {
       color: "white",
       fontWeight: "bold",
@@ -78,6 +83,20 @@ const styles = theme => ({
     "& a:active": {
         backgroundColor: "rgba(0, 0, 0, 0.5)"
     }
+  },
+  hamburgerMenu: {
+    display: 'none',
+    [theme.breakpoints.down("sm")]: {
+      display: 'block',
+      marginLeft: "auto",
+      backgroundColor: "white",
+      color: "#715AFF"
+    }
+  },
+  logOutButton: {
+    // [theme.breakpoints.down("sm")]: {
+    //   display: 'none'
+    // }
   }
 });
 

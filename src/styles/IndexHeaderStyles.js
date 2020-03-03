@@ -10,11 +10,18 @@ const styles = theme => ({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            width: "100%"
+            width: "100%",
+            [theme.breakpoints.down('sm')]: {
+                flexDirection: "column"
+              }
         },
         header: {
           fontSize: "4rem",
           fontWeight: "bold",
+          [theme.breakpoints.down('sm')]: {
+            fontSize: "2.3rem",
+            marginBottom: "2rem"
+          }
         },
         createLight: {
             background: 'green',

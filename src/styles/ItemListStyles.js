@@ -10,7 +10,10 @@ const styles = theme => ({
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      [theme.breakpoints.down('sm')]: {
+        display: "block"
+      }
   },
   darkText: {
     color: "white"
@@ -22,7 +25,8 @@ const styles = theme => ({
     fontSize: "3rem",
     textAlign: "center",
     marginTop: "1rem",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
+    
   },
   holder: {
     width: "95vw"
@@ -33,7 +37,10 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: "space-between"
+    }
   },
   bgDark: {
     background: "#2E3B55",
@@ -41,6 +48,16 @@ const styles = theme => ({
   },
   bgLight: {
     background: "rgb(93, 58, 255)"
+  },
+  searchbar: {
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
+  },
+  mobileFriendly: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 });
 

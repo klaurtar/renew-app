@@ -17,8 +17,8 @@ function FbItem(props) {
       <div className={classes.name}>{props.id}</div>
       <div className={classes.name}>{props.itemId}</div>
 
-      <a className={classes.url} href={props.url}>
-        {props.name} Link
+      <a className={classes.url} href={props.url} target="blank">
+        Link
       </a>
       <div className={classes.publishedAt}>
         {moment(props.publishedAt).format('dddd, MMMM Do, YYYY h:mm:ss A')}
