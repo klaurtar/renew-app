@@ -13,7 +13,7 @@ const styles = theme => ({
     marginRight: 20
   },
   title: {
-    display: 'block'
+    display: "block"
   },
   search: {
     position: "relative",
@@ -60,7 +60,10 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: "2rem"
+    paddingLeft: "2rem",
+    [theme.breakpoints.down("sm")]: {
+      display: "block"
+    }
   },
   navlinks: {
     // [theme.breakpoints.down("sm")]: {
@@ -76,18 +79,18 @@ const styles = theme => ({
       fontWeight: "bold",
       fontSize: "1.5rem",
       textDecoration: "none",
-      marginRight: '1rem',
+      marginRight: "1rem",
       padding: ".5rem",
       borderRadius: "15px"
     },
     "& a:active": {
-        backgroundColor: "rgba(0, 0, 0, 0.5)"
+      backgroundColor: "rgba(0, 0, 0, 0.5)"
     }
   },
   hamburgerMenu: {
-    display: 'none',
-    [theme.breakpoints.down("sm")]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
       marginLeft: "auto",
       backgroundColor: "white",
       color: "#715AFF"
@@ -97,6 +100,48 @@ const styles = theme => ({
     // [theme.breakpoints.down("sm")]: {
     //   display: 'none'
     // }
+  },
+  mobileAccordion: {
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center"
+    }
+  },
+  mobileOnly: {
+    flexDirection: "column",
+    width: "100vw",
+    alignItems: "center",
+    marginTop: "1rem",
+    "& a": {
+      color: "white",
+      fontSize: "1.5rem",
+      marginBottom: ".6rem",
+      textDecoration: "none"
+    },
+    "& button": {
+      marginBottom: ".6rem"
+    }
+  },
+  mobileThemeSwitch: {
+    boxSizing: 'border-box',
+    display: "flex",
+    width: "100vw",
+    justifyContent: "space-between",
+    marginTop: '.6rem',
+    padding: '0 1rem 0 1rem',
+    marginBottom: '.6rem'
+  },
+  flexHolder: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+
+  switchHolder: {
+    display: "flex",
+    alignItems: "center"
   }
 });
 
