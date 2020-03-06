@@ -7,40 +7,64 @@ const styles = theme => ({
   flexBox: {
     display: "flex",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: "space-between"
+    }
   },
   image: {
     width: "33%",
     display: "block",
-    margin: "0 auto"
+    margin: "0 auto",
+    [theme.breakpoints.down('sm')]: {
+      width: "100%",
+      borderRadius: "15px"
+    }
   },
   one: {
-    width: "16.66%"
+    width: "16.66%",
+    [theme.breakpoints.down('sm')]: {
+      width: "30%",
+      display: "flex",
+      alignItems: 'center'
+    }
   },
   name: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "16.66%"
+    width: "16.66%",
+    [theme.breakpoints.down('sm')]: {
+      width: "30%"
+    }
   },
   price: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "16.66%"
+    width: "16.66%",
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
   },
   views: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "16.66%"
+    width: "16.66%",
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
   },
   description: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "16.66%",
-    overflow: "hidden"
+    overflow: "hidden",
+    [theme.breakpoints.down('sm')]: {
+      display: "none"
+    }
   },
   actions: {
     width: "16.66%",
@@ -53,6 +77,13 @@ const styles = theme => ({
         outline: "none",
         cursor: "pointer",
       },
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: "column",
+        width: "30%",
+        "& i": {
+          margin: ".7rem 0 .7rem 0"
+        }
+      }
   },
   
   edit: {

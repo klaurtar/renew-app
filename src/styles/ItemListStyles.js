@@ -58,6 +58,13 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
+  },
+  mobileHeader: {
+    width: "16.6666%", 
+    textAlign: "center",
+    [theme.breakpoints.down('sm')]: {
+      width: "30%"
+    }
   }
 });
 

@@ -156,10 +156,10 @@ function ItemList(props) {
             isDarkMode ? classes.bgDark : classes.bgLight
           }`}
         >
-          <div style={{ width: "16.6666%", textAlign: "center" }}>
+          <div className={classes.mobileHeader}>
             Picture <i className={`fas fa-sort-down ${classes.mobileFriendly}`}></i>
           </div>
-          <div style={{ width: "16.6666%", textAlign: "center" }}>
+          <div className={classes.mobileHeader}>
             Name <i className={`fas fa-sort-down ${classes.mobileFriendly}`}></i>
           </div>
           <div className={classes.mobileFriendly} style={{ width: "16.6666%", textAlign: "center" }}>
@@ -171,7 +171,7 @@ function ItemList(props) {
           <div className={classes.mobileFriendly} style={{ width: "16.6666%", textAlign: "center" }}>
             Description <i className="fas fa-sort-down"></i>
           </div>
-          <div style={{ width: "16.6666%", textAlign: "center" }}>Actions</div>
+          <div className={classes.mobileHeader}>Actions</div>
         </div>
         {loading ? (
           <h1>Loading...</h1>
